@@ -1,6 +1,7 @@
 ﻿namespace Templates.Data;
 
 using System.Text;
+using Templates.Data.Exception;
 using Templates.Data.Handler;
 
 public class Program 
@@ -15,9 +16,26 @@ public class Program
 
         foreach (string line in commands)
         {
-            byte[] lineInBytes = Encoding.UTF8.GetBytes(line);
-            string readyLine = Encoding.UTF8.GetString(lineInBytes);
-            producer.RunRecognize(readyLine);
+            try
+            {
+                producer.RunRecognize(line);
+
+                if (producer.IsCommandReady){
+
+                }
+            }
+            catch (CreateTestHandlerException ex)
+            {
+                System.Console.WriteLine(ex);
+            }
+            catch (IncorrectCommandSequnce ex)
+            {
+                System.Console.WriteLine(ex);
+            }
+            catch (InputBadFormatException)
+            {
+                System.Console.WriteLine("bad format");
+            }
         }
     }
 

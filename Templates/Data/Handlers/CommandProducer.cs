@@ -9,7 +9,7 @@ public class CommandProducer : ICommandHandler
 {
     private Dictionary<Regex, Func<ICommandHandler>> _commands = new Dictionary<Regex, Func<ICommandHandler>>() 
     {
-        { new Regex("^create test"), () => new CreateQuestionHandler()}
+        { new Regex("^create test"), () => new CreateTestHandler()}
     };
 
     private ICommandHandler? _currentHandler;
@@ -23,7 +23,11 @@ public class CommandProducer : ICommandHandler
 
     public ICommand GetCommand()
     {
-        throw new NotImplementedException();
+        if (_currentHandler != null){
+            return _currentHandler.GetCommand();
+        }
+
+        throw new InputBadFormatException();
     }
 
     public void RunRecognize(string line)
