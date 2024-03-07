@@ -10,14 +10,17 @@ public class Program
     {
         CommandProducer producer = new CommandProducer();
 
-        Console.InputEncoding = Encoding.UTF8;
-
         IEnumerable<string> commands = UserInput();
 
         foreach (string line in commands)
         {
             try
             {
+                byte[] lineInBytes = Encoding.UTF8.GetBytes(line);
+
+                string readyLine = Encoding.UTF8.GetString(lineInBytes);
+                Console.WriteLine(readyLine);
+
                 producer.RunRecognize(line);
 
                 if (producer.IsCommandReady){
