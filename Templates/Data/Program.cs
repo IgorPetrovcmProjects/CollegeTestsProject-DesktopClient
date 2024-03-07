@@ -1,15 +1,23 @@
 ﻿namespace Templates.Data;
 
+using System.Text;
+using Templates.Data.Handler;
 
 public class Program 
 {
     static void Main(string[] args)
     {
+        CommandProducer producer = new CommandProducer();
+
+        Console.InputEncoding = Encoding.UTF8;
+
         IEnumerable<string> commands = UserInput();
 
         foreach (string line in commands)
         {
-            
+            byte[] lineInBytes = Encoding.UTF8.GetBytes(line);
+            string readyLine = Encoding.UTF8.GetString(lineInBytes);
+            producer.RunRecognize(readyLine);
         }
     }
 

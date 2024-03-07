@@ -1,11 +1,11 @@
 namespace Templates.Data.Model;
 
 
-public class Qestion
+public class Question
 {
     public string? question;
 
-    public string[]? answerOptions;
+    public List<string> answerOptions = new List<string>();
 
-    public int[]? answers;
+    public List<int> answers = new List<int>();
 }
