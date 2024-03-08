@@ -21,7 +21,7 @@ public class CommandProducer : ICommandHandler
         return _currentHandler.IsCommandReady;
     }}
 
-    public ICommand GetCommand()
+    public Templates.Data.Command.ICommand GetCommand()
     {
         if (_currentHandler != null){
             return _currentHandler.GetCommand();

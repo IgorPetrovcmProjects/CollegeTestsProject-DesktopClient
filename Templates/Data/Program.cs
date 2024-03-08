@@ -1,13 +1,26 @@
 ﻿namespace Templates.Data;
 
 using System.Text;
+using System.Windows.Input;
 using Templates.Data.Exception;
 using Templates.Data.Handler;
+using Templates.Data.Command;
 
 public class Program 
 {
+    static TemplateDataEventArgs? templateDataEventArgs;
+
     static void Main(string[] args)
     {
+        if (args.Length == 0){
+
+            System.Console.WriteLine("You have not entered the path to the source folder");
+            
+            Environment.Exit(0);
+        }
+
+        templateDataEventArgs = new TemplateDataEventArgs(args[0]);
+
         CommandProducer producer = new CommandProducer();
 
         IEnumerable<string> commands = UserInput();
@@ -16,15 +29,21 @@ public class Program
         {
             try
             {
-                byte[] lineInBytes = Encoding.UTF8.GetBytes(line);
+                if (line == "apply"){
+                    templateDataEventArgs.Invoke();
 
-                string readyLine = Encoding.UTF8.GetString(lineInBytes);
-                Console.WriteLine(readyLine);
+                    continue;
+                }
 
                 producer.RunRecognize(line);
 
                 if (producer.IsCommandReady){
 
+                    Templates.Data.Command.ICommand command = producer.GetCommand();
+
+                    templateDataEventArgs.AddEvent(command.Apply);
+
+                    producer = new CommandProducer();
                 }
             }
             catch (CreateTestHandlerException ex)
@@ -58,6 +77,5 @@ public class Program
             yield return input;
         }
     }
-
 
 }

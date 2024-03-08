@@ -22,7 +22,7 @@ public class CreateTestHandler : ICommandHandler
 
     public bool IsCommandReady {get { return !_isStartedTest; }}
 
-    public ICommand GetCommand()
+    public Templates.Data.Command.ICommand GetCommand()
     {
         return new CreateTestCommand(new Test { title = testTitle, questions = this.questions});
     }
@@ -63,6 +63,11 @@ public class CreateTestHandler : ICommandHandler
 
             if (questions.Last().answers.Count == questions.Last().answerOptions.Count){
                 throw new CreateTestHandlerException("The count answers is more than count a answer options");
+            }
+
+            if (int.Parse(match.Groups[8].ToString()) > questions.Last().answerOptions.Count)
+            {
+                throw new InputBadFormatException();
             }
 
             questions.Last().answers.Add(int.Parse(match.Groups[8].ToString()));

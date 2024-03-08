@@ -11,8 +11,8 @@ public class CreateTestCommand : ICommand
         this.test = test;
     }
 
-    public void Apply()
+    public void Apply(TemplateDataEventArgs e)
     {
-        throw new NotImplementedException();
+        File.Create(e.sourcePath + "/file.txt");
     }
 }
