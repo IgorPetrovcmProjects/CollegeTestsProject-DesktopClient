@@ -19,11 +19,18 @@ public class Program
             Environment.Exit(0);
         }
 
+        if (args.Length == 2) 
+        {
+
+        }
+
         templateDataEventArgs = new TemplateDataEventArgs(args[0]);
 
         CommandProducer producer = new CommandProducer();
 
-        IEnumerable<string> commands = UserInput();
+        IEnumerable<string> commands = args.Length == 2 
+            ? FileInputs(args[2])
+            : UserInputs();
 
         foreach (string line in commands)
         {
@@ -61,7 +68,7 @@ public class Program
         }
     }
 
-    private static IEnumerable<string> UserInput()
+    private static IEnumerable<string> UserInputs()
     {
         while (true)
         {
@@ -78,4 +85,13 @@ public class Program
         }
     }
 
+    private static IEnumerable<string> FileInputs(string path)
+    {
+        string[] lines = File.ReadAllLines(path);
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            yield return lines[i];
+        }
+    }
 }

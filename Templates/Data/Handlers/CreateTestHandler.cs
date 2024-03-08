@@ -10,11 +10,11 @@ using Templates.Data.Model;
 public class CreateTestHandler : ICommandHandler
 {
     private static readonly Regex Recognize = 
-        new Regex(@"^(?:(create test) ([a-zA-ZА-Я0-9АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя\s]+)|(add question) ([a-zA-Z0-9А-Я0-9АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя\s]+)|(add answer option) ([a-zA-Z0-9А-Я0-9АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя\s]+)|(add answer) (\d)|(end question)|(end test))");
+        new Regex(@"^(?:(create test) ([a-zA-ZА-Я0-9АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя\s]+)|(add question) ([a-zA-Z0-9А-Я0-9АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя\s]+)|(add answer option) ([a-zA-Z0-9А-Я0-9АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя\s]+)|(add answer) ([0-9]+)|(end question)|(end test))");
 
    private List<Question> questions = new List<Question>();
    
-   private string? testTitle;
+   private string testTitle;
 
     private bool _isStartedTest = false;
 
@@ -24,7 +24,7 @@ public class CreateTestHandler : ICommandHandler
 
     public Templates.Data.Command.ICommand GetCommand()
     {
-        return new CreateTestCommand(new Test { title = testTitle, questions = this.questions});
+        return new CreateTestCommand(new Test(testTitle, this.questions));
     }
 
     public void RunRecognize(string line)

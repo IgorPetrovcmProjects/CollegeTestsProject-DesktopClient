@@ -1,0 +1,7 @@
+create test How are you
+add question What day 
+add answer option Bad
+add answer option Good
+add answer 2
+end question
+end test
