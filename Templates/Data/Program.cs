@@ -19,18 +19,15 @@ public class Program
             Environment.Exit(0);
         }
 
-        if (args.Length == 2) 
-        {
-
-        }
-
         templateDataEventArgs = new TemplateDataEventArgs(args[0]);
 
         CommandProducer producer = new CommandProducer();
 
         IEnumerable<string> commands = args.Length == 2 
-            ? FileInputs(args[2])
+            ? FileInputs(args[1])
             : UserInputs();
+
+        //IEnumerable<string> commands = FileInputs(@"C:\Users\igorp\MyProjects\CollegeTestsProject\CollegeTestsProject-DesktopClient\Templates\Data.Test\set_commands.txt");
 
         foreach (string line in commands)
         {

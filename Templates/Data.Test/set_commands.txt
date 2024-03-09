@@ -5,3 +5,4 @@ add answer option Good
 add answer 2
 end question
 end test
+apply
