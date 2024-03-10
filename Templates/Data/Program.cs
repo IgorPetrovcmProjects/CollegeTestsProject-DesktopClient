@@ -9,15 +9,18 @@ using Templates.Data.Routing;
 
 public class Program 
 {
-    static TemplateDataEventArgs? templateDataEventArgs;
+    static ApplicationBuilder appBuilder;
 
     static void Main(string[] args)
     {
         while (true)
         {
-            ApplicationBuilder appBuilder = new ApplicationBuilder();
+            appBuilder = new ApplicationBuilder();
 
             if (!appBuilder.UseRouting(new TemplateDataRoute())) continue;
+
+            appBuilder.Stop();
+            appBuilder.Close();
         }
 
         /*if (args.Length == 0){

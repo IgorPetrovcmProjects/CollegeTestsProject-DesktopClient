@@ -17,7 +17,7 @@ public class ApplicationBuilder
 
     private const string PathToAppConfigurationFile = "Configuration/configuration.json";
 
-    private const string Url = "http://127.0.0.1:3331";
+    private const string Url = "http://127.0.0.1:3330";
 
     private string sourcePath;
 
@@ -57,6 +57,8 @@ public class ApplicationBuilder
 
     public ApplicationBuilder()
     {
+        listener = new HttpListener();
+
         AssignConfigurationForUrls();
         AssignRoutes();
 
@@ -73,6 +75,16 @@ public class ApplicationBuilder
     public void AddFinalStatusCode(int statusCode)
     {
         finalStatusCodes.Add(statusCode);
+    }
+
+    public void Stop()
+    {
+        listener.Stop();
+    }
+
+    public void Close()
+    {
+        listener.Close();
     }
 
     public bool SetSourceDirectory(string path)
