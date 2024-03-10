@@ -7,7 +7,7 @@ public class TemplateDataRoute : IRoute
 {
     private readonly static Dictionary<Regex, Func<IRouteHandler>> _urls = new Dictionary<Regex, Func<IRouteHandler>>()
     {
-        { new Regex(@"\w+\/sourcepath\/"), () => new SourthpathRoute() }
+        { new Regex(@"\/sourcepath\/"), () => new SourthpathRoute() }
     };
 
     public IRouteHandler GetRouteHandler(string urlLine)

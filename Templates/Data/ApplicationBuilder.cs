@@ -10,13 +10,19 @@ public class ApplicationBuilder
 {
     private Dictionary<string, RouteConfiguration> configurations = new Dictionary<string, RouteConfiguration>();
 
+    private HashSet<int> finalStatusCodes = new HashSet<int>();
+    public HashSet<int> FinalStatusCodes { get { return finalStatusCodes; }}
+
     private const string PathToRouteConfigurationFile = "Configuration/route-configuration.json"; 
 
-    private const string Url = "http://127.0.0.1:3330";
+    private const string PathToAppConfigurationFile = "Configuration/configuration.json";
+
+    private const string Url = "http://127.0.0.1:3331";
 
     private string sourcePath;
 
     private static HttpListener listener = new HttpListener();
+    public HttpListener Listener { get { return listener; } }
 
     private HttpListenerContext _context;
 
@@ -33,6 +39,9 @@ public class ApplicationBuilder
         string json = Encoding.UTF8.GetString(jsonInBytes);
 
         configurations = JsonConvert.DeserializeObject<Dictionary<string, RouteConfiguration>>(json);
+
+        fs.Close();
+        fs.Dispose();
     }
 
     private void AssignRoutes()
@@ -59,6 +68,47 @@ public class ApplicationBuilder
     public RouteConfiguration GetRouteConfiguration(string route)
     {
         return configurations[route];
+    }
+
+    public void AddFinalStatusCode(int statusCode)
+    {
+        finalStatusCodes.Add(statusCode);
+    }
+
+    public bool SetSourceDirectory(string path)
+    {
+        if (Directory.Exists(path)){
+            ApplicationConfiguration appConfiguration = new ApplicationConfiguration() {
+            sourcePath = path
+            };
+
+            FileStream fs = new FileStream(PathToAppConfigurationFile, FileMode.Open, FileAccess.ReadWrite);
+
+            byte[] jsonInBytes = new byte[fs.Length];
+
+            fs.Read(jsonInBytes, 0, jsonInBytes.Length);
+
+            string json = Encoding.UTF8.GetString(jsonInBytes);
+
+            ApplicationConfiguration currentAppConfiguration = JsonConvert.DeserializeObject<ApplicationConfiguration>(json);
+
+            currentAppConfiguration = appConfiguration;
+
+            fs.SetLength(0);
+
+            json = JsonConvert.SerializeObject(currentAppConfiguration);
+
+            jsonInBytes = Encoding.UTF8.GetBytes(json);
+
+            fs.Write(jsonInBytes, 0, jsonInBytes.Length);
+
+            fs.Close();
+            fs.Dispose();
+
+            return true;
+        }
+
+        return false;
     }
 
 }

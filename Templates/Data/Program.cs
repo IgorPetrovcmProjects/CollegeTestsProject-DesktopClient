@@ -13,9 +13,12 @@ public class Program
 
     static void Main(string[] args)
     {
-        ApplicationBuilder appBuilder = new ApplicationBuilder();
+        while (true)
+        {
+            ApplicationBuilder appBuilder = new ApplicationBuilder();
 
-        appBuilder.UseRouting(new TemplateDataRoute());
+            if (!appBuilder.UseRouting(new TemplateDataRoute())) continue;
+        }
 
         /*if (args.Length == 0){
 
