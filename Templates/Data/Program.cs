@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Templates.Data.Exception;
 using Templates.Data.Handler;
 using Templates.Data.Command;
+using Templates.Data.Routing;
 
 public class Program 
 {
@@ -14,7 +15,7 @@ public class Program
     {
         ApplicationBuilder appBuilder = new ApplicationBuilder();
 
-        
+        appBuilder.UseRouting(new TemplateDataRoute());
 
         /*if (args.Length == 0){
 

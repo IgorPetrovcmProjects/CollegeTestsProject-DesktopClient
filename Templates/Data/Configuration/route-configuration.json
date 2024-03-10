@@ -1,0 +1,7 @@
+{
+    "/sourthpath/":
+    {
+        "method": "GET",
+        "query": "path"
+    }
+}
