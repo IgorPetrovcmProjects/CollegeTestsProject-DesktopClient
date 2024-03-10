@@ -10,7 +10,10 @@ public static class ApplicationBuilderExtensionMethods
     public static bool UseRouting(this ApplicationBuilder builder, IRoute route)
     {
         if ( builder.FinalStatusCodes.Any(x => x == builder.Context.Response.StatusCode) ){
-            builder.Close();
+            builder.Listener.Stop();
+
+            builder.Listener.Close();
+            
             return false;
         }
 

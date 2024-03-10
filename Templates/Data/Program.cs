@@ -19,8 +19,8 @@ public class Program
 
             if (!appBuilder.UseRouting(new TemplateDataRoute())) continue;
 
-            appBuilder.Stop();
-            appBuilder.Close();
+            appBuilder.Listener.Stop();
+            appBuilder.Listener.Close();
         }
 
         /*if (args.Length == 0){

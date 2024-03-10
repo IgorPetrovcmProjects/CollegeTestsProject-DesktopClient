@@ -19,9 +19,7 @@ public class ApplicationBuilder
 
     private const string Url = "http://127.0.0.1:3330";
 
-    private string sourcePath;
-
-    private static HttpListener listener = new HttpListener();
+    private HttpListener listener = new HttpListener();
     public HttpListener Listener { get { return listener; } }
 
     private HttpListenerContext _context;
@@ -57,8 +55,6 @@ public class ApplicationBuilder
 
     public ApplicationBuilder()
     {
-        listener = new HttpListener();
-
         AssignConfigurationForUrls();
         AssignRoutes();
 
@@ -77,13 +73,12 @@ public class ApplicationBuilder
         finalStatusCodes.Add(statusCode);
     }
 
-    public void Stop()
+    public void End()
     {
-        listener.Stop();
-    }
+        _context.Response.ContentLength64 = 0;
 
-    public void Close()
-    {
+        listener.Stop();
+
         listener.Close();
     }
 
