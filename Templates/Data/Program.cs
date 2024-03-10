@@ -12,7 +12,11 @@ public class Program
 
     static void Main(string[] args)
     {
-        if (args.Length == 0){
+        ApplicationBuilder appBuilder = new ApplicationBuilder();
+
+        
+
+        /*if (args.Length == 0){
 
             System.Console.WriteLine("You have not entered the path to the source folder");
             
@@ -26,8 +30,6 @@ public class Program
         IEnumerable<string> commands = args.Length == 2 
             ? FileInputs(args[1])
             : UserInputs();
-
-        //IEnumerable<string> commands = FileInputs(@"C:\Users\igorp\MyProjects\CollegeTestsProject\CollegeTestsProject-DesktopClient\Templates\Data.Test\set_commands.txt");
 
         foreach (string line in commands)
         {
@@ -62,7 +64,7 @@ public class Program
             {
                 System.Console.WriteLine("bad format");
             }
-        }
+        }*/
     }
 
     private static IEnumerable<string> UserInputs()
@@ -88,7 +90,9 @@ public class Program
 
         for (int i = 0; i < lines.Length; i++)
         {
-            yield return lines[i];
+            string line = lines[i].Trim();
+
+            yield return line;
         }
     }
 }
