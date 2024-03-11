@@ -45,7 +45,7 @@ public class ApplicationBuilder
     private void AssignRoutes()
     {
         if (configurations.Count == 0){
-            throw new ApplicationRoutesException("The Routes was not found");
+            throw new ApplicationMiddlewareException("The Routes was not found");
         }
         foreach (string key in configurations.Keys)
         {   
@@ -76,6 +76,10 @@ public class ApplicationBuilder
     public void SendMessageAndExit(string message, int status)
     {
         byte[] messageInBytes = Encoding.UTF8.GetBytes(message);
+
+        _context.Response.ContentLength64 = messageInBytes.Length;
+
+        _context.Response.StatusCode = status;
 
         _context.Response.OutputStream.Write(messageInBytes);
 

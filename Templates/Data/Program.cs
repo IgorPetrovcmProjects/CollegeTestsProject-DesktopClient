@@ -20,20 +20,20 @@ public class Program
             try 
             {
                 if (!appBuilder.UseRouting( new TemplateDataRoute( appBuilder ) )) continue;
-                appBuilder.UseCommandExecution();
+                if (!appBuilder.UseCommandExecution()) continue;
             }
-            catch (ApplicationRoutesException ex)
+            catch (ApplicationMiddlewareException ex)
             {
                 appBuilder.SendMessageAndExit(ex.Message, 400);
+                continue;
             }
             catch (NullReferenceException ex)
             {
-                appBuilder.Context.Response.StatusCode = 523;
-                appBuilder.Context.Response.StatusDescription = ex.Message;
+                appBuilder.SendMessageAndExit(ex.Message, 523);
+                continue;
             }
 
-            appBuilder.Listener.Stop();
-            appBuilder.Listener.Close();
+            appBuilder.SendMessageAndExit("OK", 200);
         }
 
         /*if (args.Length == 0){

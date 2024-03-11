@@ -6,28 +6,31 @@ using Templates.Data.Exception;
 using Templates.Data.Routing;
 using Templates.Data.Command;
 using Templates.Data.Handler;
+using System.Text;
 
 public static partial class ApplicationBuilderExtensionMethods
 {
-    public static bool UseRouting(this ApplicationBuilder builder, IRoute route)
+    public static bool IsExit(ApplicationBuilder builder)
     {
-        if ( builder.FinalStatusCodes.Any(x => x == builder.Context.Response.StatusCode) ){
+        if ( builder.FinalStatusCodes.Any ( x => x == builder.Context.Response.StatusCode ) ){
 
-            builder.Listener.Stop();
-            builder.Listener.Close();
+            builder.SendMessageAndExit( builder.Context.Response.StatusDescription, builder.Context.Response.StatusCode );
             
             return false;
         }
+
+        return true;
+    }
+
+    public static bool UseRouting(this ApplicationBuilder builder, IRoute route)
+    {
+        if (!IsExit(builder)) return false;
 
         string rawUrl = builder.Context.Request.RawUrl;
 
         HttpListenerRequest request = builder.Context.Request;
 
-        Regex recognizeRaw = new Regex(@"(\/[a-zA-Z0-9]+\/)[a-zA-Z0-9\?\/\\=\:\.\-]+");
-
         RouteHandler routeHandler = route.GetRouteHandler(rawUrl);
-
-        Match match = recognizeRaw.Match(rawUrl);
 
         if ( routeHandler.RecognizeRequest( request )){
             try 
@@ -36,7 +39,7 @@ public static partial class ApplicationBuilderExtensionMethods
                     builder.Context.Response.StatusCode = 204;
                 }
             }
-            catch (ApplicationRoutesException ex)
+            catch (ApplicationMiddlewareException ex)
             {
                 builder.Context.Response.StatusCode = 400;
                 builder.Context.Response.StatusDescription = ex.Message;
@@ -44,17 +47,19 @@ public static partial class ApplicationBuilderExtensionMethods
         }
         else 
         {
-            throw new ApplicationRoutesException("The request is not correct");
+            throw new ApplicationMiddlewareException("The request is not correct");
         }
 
         return true;
     }
 
-    public static void UseCommandExecution(this ApplicationBuilder builder) 
+    public static bool UseCommandExecution(this ApplicationBuilder builder) 
     {
+        if (!IsExit(builder)) return false;
+
         TemplateDataEventArgs templateDataEventArgs = new TemplateDataEventArgs( builder.GetSourceDirectory() );
 
-        CommandProducer commandProducer = new CommandProducer();
+        CommandProducer producer = new CommandProducer();
 
         using Stream stream = builder.Context.Request.InputStream;
 
@@ -62,5 +67,49 @@ public static partial class ApplicationBuilderExtensionMethods
 
         string commandStrings = read.ReadToEnd();
 
+        commandStrings = commandStrings.Replace("\r\n", "");
+
+        string[] commands = commandStrings.Split(';');
+
+        int count = 1;
+
+        foreach (string command in commands)
+        {
+            try
+            {
+                if (command == "apply"){
+                    templateDataEventArgs.Invoke();
+
+                    continue;
+                }
+
+                producer.RunRecognize(command);
+
+                if (producer.IsCommandReady){
+
+                    Templates.Data.Command.ICommand readyCommand = producer.GetCommand();
+
+                    templateDataEventArgs.AddEvent(readyCommand.Apply);
+
+                    producer = new CommandProducer();
+                }
+
+                count++;
+            }
+            catch (CreateTestHandlerException ex)
+            {
+                throw new ApplicationMiddlewareException(ex.Message);
+            }
+            catch (IncorrectCommandSequnce ex)
+            {
+                throw new ApplicationMiddlewareException(ex.Message);
+            }
+            catch (InputBadFormatException)
+            {
+                throw new ApplicationMiddlewareException("line" + count + ": bad format");
+            }
+        }
+
+        return true;
     }
 }

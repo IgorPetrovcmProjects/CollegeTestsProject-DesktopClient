@@ -2,9 +2,9 @@ namespace Templates.Data.Exception;
 
 using System;
 
-public class ApplicationRoutesException : Exception
+public class ApplicationMiddlewareException : Exception
 {
-    public ApplicationRoutesException() {}
+    public ApplicationMiddlewareException() {}
 
-    public ApplicationRoutesException(string message) : base (message) {}
+    public ApplicationMiddlewareException(string message) : base (message) {}
 }

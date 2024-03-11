@@ -19,7 +19,7 @@ public class SourcePathRouteHandler : RouteHandler
         builder.AddFinalStatusCode(400);
 
         if ( !builder.SetSourceDirectory(match.Groups[1].ToString()) ){
-            throw new ApplicationRoutesException("The path was not found on the computer");
+            throw new ApplicationMiddlewareException("The path was not found on the computer");
         }
         
         return false;
