@@ -1,6 +1,5 @@
 namespace Templates.Data.Handler;
 
-using System.Text.RegularExpressions;
 using Templates.Data.Command;
 
 public interface ICommandHandler

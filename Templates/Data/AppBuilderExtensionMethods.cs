@@ -1,12 +1,9 @@
 namespace Templates.Data;
 
 using System.Net;
-using System.Text.RegularExpressions;
 using Templates.Data.Exception;
 using Templates.Data.Routing;
-using Templates.Data.Command;
 using Templates.Data.Handler;
-using System.Text;
 
 public static partial class ApplicationBuilderExtensionMethods
 {

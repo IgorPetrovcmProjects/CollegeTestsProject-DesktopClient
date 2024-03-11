@@ -1,7 +1,5 @@
 namespace Templates.Data.Handler;
 
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using Templates.Data.Command;
 using Templates.Data.Exception;

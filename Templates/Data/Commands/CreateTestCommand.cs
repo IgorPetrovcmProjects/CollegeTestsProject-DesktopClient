@@ -1,7 +1,5 @@
 namespace Templates.Data.Command;
 
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using Templates.Data.Model;
 using Newtonsoft.Json;
 using System.Text;

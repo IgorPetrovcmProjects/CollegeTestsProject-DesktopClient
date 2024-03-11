@@ -1,6 +1,5 @@
 namespace Templates.Data.Routing;
 
-using System.Net;
 using System.Text.RegularExpressions;
 using Templates.Data.Configuration;
 using Templates.Data.Exception;

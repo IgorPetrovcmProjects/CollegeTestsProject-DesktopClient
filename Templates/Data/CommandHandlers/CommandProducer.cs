@@ -1,18 +1,19 @@
-using System.Text.RegularExpressions;
-using Templates.Data.Command;
-using Templates.Data.Exception;
-
 namespace Templates.Data.Handler;
 
+using System.Text.RegularExpressions;
+using Templates.Data.Exception;
 
 public class CommandProducer : ICommandHandler
 {
+    private ICommandHandler? _currentHandler;
+
+
     private Dictionary<Regex, Func<ICommandHandler>> _commands = new Dictionary<Regex, Func<ICommandHandler>>() 
     {
-        { new Regex("^create test"), () => new CreateTestHandler()}
+        { new Regex("^create test"), () => new CreateTestHandler()},
+        { new Regex("^update test"), () => new UpdateTestHandler()}
     };
 
-    private ICommandHandler? _currentHandler;
 
     public bool IsCommandReady { get {
         if (_currentHandler == null)

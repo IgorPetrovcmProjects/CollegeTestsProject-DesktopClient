@@ -1,8 +1,6 @@
-using System.Net;
-using Templates.Data.Configuration;
-
 namespace Templates.Data.Routing;
 
+using Templates.Data.Configuration;
 
 public class CreateTestRouteHandler : RouteHandler
 {
