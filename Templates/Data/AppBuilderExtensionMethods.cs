@@ -4,8 +4,10 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Templates.Data.Exception;
 using Templates.Data.Routing;
+using Templates.Data.Command;
+using Templates.Data.Handler;
 
-public static class ApplicationBuilderExtensionMethods
+public static partial class ApplicationBuilderExtensionMethods
 {
     public static bool UseRouting(this ApplicationBuilder builder, IRoute route)
     {
@@ -51,5 +53,14 @@ public static class ApplicationBuilderExtensionMethods
     public static void UseCommandExecution(this ApplicationBuilder builder) 
     {
         TemplateDataEventArgs templateDataEventArgs = new TemplateDataEventArgs( builder.GetSourceDirectory() );
+
+        CommandProducer commandProducer = new CommandProducer();
+
+        using Stream stream = builder.Context.Request.InputStream;
+
+        using StreamReader read = new StreamReader(stream);
+
+        string commandStrings = read.ReadToEnd();
+
     }
 }

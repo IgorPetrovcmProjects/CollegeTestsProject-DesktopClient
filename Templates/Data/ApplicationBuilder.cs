@@ -73,12 +73,13 @@ public class ApplicationBuilder
         finalStatusCodes.Add(statusCode);
     }
 
-    public void End()
+    public void SendMessageAndExit(string message, int status)
     {
-        _context.Response.ContentLength64 = 0;
+        byte[] messageInBytes = Encoding.UTF8.GetBytes(message);
+
+        _context.Response.OutputStream.Write(messageInBytes);
 
         listener.Stop();
-
         listener.Close();
     }
 

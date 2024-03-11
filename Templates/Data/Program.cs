@@ -20,11 +20,11 @@ public class Program
             try 
             {
                 if (!appBuilder.UseRouting( new TemplateDataRoute( appBuilder ) )) continue;
+                appBuilder.UseCommandExecution();
             }
             catch (ApplicationRoutesException ex)
             {
-                appBuilder.Context.Response.StatusCode = 400;
-                appBuilder.Context.Response.StatusDescription = ex.Message;
+                appBuilder.SendMessageAndExit(ex.Message, 400);
             }
             catch (NullReferenceException ex)
             {
