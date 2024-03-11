@@ -5,23 +5,11 @@ using System.Text.RegularExpressions;
 using Templates.Data.Configuration;
 using Templates.Data.Exception;
 
-public class SourthpathRoute : IRouteHandler
+public class SourcePathRouteHandler : RouteHandler
 {
-    private RouteConfiguration configuration;
+    public SourcePathRouteHandler( RouteConfiguration configuration ) : base(configuration) {}
 
-    public bool RecognizeRequest(HttpListenerRequest request, RouteConfiguration configuration)
-    {
-        if (request.HttpMethod == configuration.method && request.QueryString[configuration.query] != null){
-
-            this.configuration = configuration;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool Run(ApplicationBuilder builder)
+    public override bool Run(ApplicationBuilder builder)
     {
         Regex recognizeRegex = new Regex(@$"[a-zA-Z0-9\?\/\\=\:\.]+\?{configuration.query}=([a-zA-Z0-9\?\/\\=\:\.\-]+)");
 

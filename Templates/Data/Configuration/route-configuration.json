@@ -3,5 +3,10 @@
     {
         "method": "GET",
         "query": "path"
+    },
+    "/createtest/":
+    {
+        "method": "POST",
+        "query": ""
     }
 }
