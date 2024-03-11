@@ -40,12 +40,16 @@ public static class ApplicationBuilderExtensionMethods
                 builder.Context.Response.StatusDescription = ex.Message;
             }
         }
+        else 
+        {
+            throw new ApplicationRoutesException("The request is not correct");
+        }
 
         return true;
     }
 
-    public static void UseCommandExecution(this ApplicationBuilder) 
+    public static void UseCommandExecution(this ApplicationBuilder builder) 
     {
-
+        TemplateDataEventArgs templateDataEventArgs = new TemplateDataEventArgs( builder.GetSourceDirectory() );
     }
 }

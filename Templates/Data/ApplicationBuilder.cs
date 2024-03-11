@@ -85,8 +85,9 @@ public class ApplicationBuilder
     public bool SetSourceDirectory(string path)
     {
         if (Directory.Exists(path)){
-            ApplicationConfiguration appConfiguration = new ApplicationConfiguration() {
-            sourcePath = path
+            ApplicationConfiguration appConfiguration = new ApplicationConfiguration() 
+            {
+                sourcePath = path
             };
 
             FileStream fs = new FileStream(PathToAppConfigurationFile, FileMode.Open, FileAccess.ReadWrite);
@@ -116,6 +117,32 @@ public class ApplicationBuilder
         }
 
         return false;
+    }
+
+    public string GetSourceDirectory()
+    {
+        FileStream fs = new FileStream(PathToAppConfigurationFile, FileMode.Open, FileAccess.Read);
+
+        byte[] jsonInBytes = new byte[fs.Length];
+
+        fs.Read(jsonInBytes, 0, jsonInBytes.Length);
+
+        string json = Encoding.UTF8.GetString(jsonInBytes);
+
+        ApplicationConfiguration? appConfiguration = JsonConvert.DeserializeObject<ApplicationConfiguration>(json);
+
+        if (appConfiguration == null){
+            throw new NullReferenceException("A global project error has occurred");
+        }
+        
+        if (appConfiguration.sourcePath.Trim() == "" || appConfiguration.sourcePath == null){
+            throw new NullReferenceException("First, you need to set the source path");
+        }
+
+        fs.Close();
+        fs.Dispose();
+
+        return appConfiguration.sourcePath;
     }
 
 }

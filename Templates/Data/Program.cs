@@ -17,7 +17,20 @@ public class Program
         {
             appBuilder = new ApplicationBuilder();
 
-            if (!appBuilder.UseRouting(new TemplateDataRoute())) continue;
+            try 
+            {
+                if (!appBuilder.UseRouting( new TemplateDataRoute( appBuilder ) )) continue;
+            }
+            catch (ApplicationRoutesException ex)
+            {
+                appBuilder.Context.Response.StatusCode = 400;
+                appBuilder.Context.Response.StatusDescription = ex.Message;
+            }
+            catch (NullReferenceException ex)
+            {
+                appBuilder.Context.Response.StatusCode = 523;
+                appBuilder.Context.Response.StatusDescription = ex.Message;
+            }
 
             appBuilder.Listener.Stop();
             appBuilder.Listener.Close();

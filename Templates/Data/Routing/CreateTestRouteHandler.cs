@@ -10,6 +10,6 @@ public class CreateTestRouteHandler : RouteHandler
 
     public override bool Run(ApplicationBuilder builder)
     {
-        throw new NotImplementedException();
+        return false;
     }
 }
