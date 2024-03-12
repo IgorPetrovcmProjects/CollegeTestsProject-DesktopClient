@@ -11,7 +11,12 @@
     },
     "/updatetest/":
     {
-        "method": "POST",
+        "method": "PUT",
         "query": "name"
+    },
+    "/deletetest/":
+    {
+        "method":"DELETE",
+        "query":"name"
     }
 }
