@@ -13,7 +13,8 @@ public class TemplateDataRoute : IRoute
         {
             { new Regex(@"\/sourcepath\/"), () => new SourcePathRouteHandler(builder.GetRouteConfiguration("/sourcepath/")) },
             { new Regex(@"\/createtest\/"), () => new CreateTestRouteHandler(builder.GetRouteConfiguration("/createtest/")) },
-            { new Regex(@"\/updatetest\/"), () => new UpdateTestRouteHandler(builder.GetRouteConfiguration("/updatetest/")) }
+            { new Regex(@"\/updatetest\/"), () => new UpdateTestRouteHandler(builder.GetRouteConfiguration("/updatetest/")) },
+            { new Regex(@"\/deletetest\/"), () => new DeleteTestRouteHandler(builder.GetRouteConfiguration("/deletetest/")) }
         };
     }
 

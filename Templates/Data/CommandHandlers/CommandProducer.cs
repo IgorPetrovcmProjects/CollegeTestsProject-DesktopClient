@@ -11,7 +11,6 @@ public class CommandProducer : ICommandHandler
     private Dictionary<Regex, Func<ICommandHandler>> _commands = new Dictionary<Regex, Func<ICommandHandler>>() 
     {
         { new Regex("^create test"), () => new CreateTestHandler()},
-        { new Regex("^update test"), () => new UpdateTestHandler()}
     };
 
 
