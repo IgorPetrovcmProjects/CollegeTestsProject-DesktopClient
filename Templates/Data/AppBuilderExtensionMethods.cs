@@ -33,7 +33,10 @@ public static partial class ApplicationBuilderExtensionMethods
             try 
             {
                 if ( !routeHandler.Run(builder) ){
-                    builder.Context.Response.StatusCode = 204;
+                    if (builder.Context.Response.StatusCode == 0){
+                        builder.Context.Response.StatusCode = 204;
+                        builder.Context.Response.StatusDescription = "No content";
+                    }
                 }
             }
             catch (ApplicationMiddlewareException ex)

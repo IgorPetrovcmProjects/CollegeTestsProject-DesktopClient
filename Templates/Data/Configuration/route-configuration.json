@@ -18,5 +18,15 @@
     {
         "method":"DELETE",
         "query":"name"
+    },
+    "/gettitles/":
+    {
+        "method": "GET",
+        "query": ""
+    },
+    "/gettest/":
+    {
+        "method": "GET",
+        "query": "name"
     }
 }
