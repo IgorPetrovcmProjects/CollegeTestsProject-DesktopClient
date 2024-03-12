@@ -12,7 +12,8 @@ public class TemplateDataRoute : IRoute
         _urls = new Dictionary<Regex, Func<RouteHandler>>()
         {
             { new Regex(@"\/sourcepath\/"), () => new SourcePathRouteHandler(builder.GetRouteConfiguration("/sourcepath/")) },
-            { new Regex(@"\/createtest\/"), () => new CreateTestRouteHandler(builder.GetRouteConfiguration("/createtest/")) }
+            { new Regex(@"\/createtest\/"), () => new CreateTestRouteHandler(builder.GetRouteConfiguration("/createtest/")) },
+            { new Regex(@"\/updatetest\/"), () => new UpdateTestRouteHandler(builder.GetRouteConfiguration("/updatetest/")) }
         };
     }
 

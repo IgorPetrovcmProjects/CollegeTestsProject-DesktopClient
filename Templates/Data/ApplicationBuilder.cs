@@ -92,7 +92,7 @@ public class ApplicationBuilder
                 sourcePath = path
             };
 
-            using FileStream fs = new FileStream(PathToAppConfigurationFile, FileMode.Open, FileAccess.ReadWrite);
+            using FileStream fs = new FileStream(PathToAppConfigurationFile, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
             byte[] jsonInBytes = new byte[fs.Length];
 

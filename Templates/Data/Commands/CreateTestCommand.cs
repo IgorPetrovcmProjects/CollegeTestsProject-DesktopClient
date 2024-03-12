@@ -17,7 +17,7 @@ public class CreateTestCommand : ICommand
     {
         DirectoryInfo dirInfo;
 
-        if (!Directory.Exists(e.sourcePath + "\\Tests")){
+        if (!Directory.Exists(e.sourcePath + "\\Tests\\")){
             dirInfo = Directory.CreateDirectory(e.sourcePath + "\\Tests");
         }
         else{
@@ -28,7 +28,7 @@ public class CreateTestCommand : ICommand
         {
             fs.SetLength(0);
 
-            string json = JsonConvert.SerializeObject(test);
+            string json = JsonConvert.SerializeObject(test.questions);
 
             byte[] buffer = Encoding.UTF8.GetBytes(json);
 

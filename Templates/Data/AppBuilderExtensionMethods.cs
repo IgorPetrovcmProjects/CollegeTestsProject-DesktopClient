@@ -78,8 +78,9 @@ public static partial class ApplicationBuilderExtensionMethods
         {
             try
             {
-                command.Trim();
-
+                if (command == ""){
+                    continue;
+                }
                 if (command == "apply"){
                     templateDataEventArgs.Invoke();
 
