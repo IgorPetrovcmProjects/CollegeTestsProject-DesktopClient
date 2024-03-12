@@ -15,13 +15,20 @@ public class CreateTestCommand : ICommand
 
     public void Apply(TemplateDataEventArgs e)
     {
-        DirectoryInfo dirInfo = Directory.CreateDirectory(e.sourcePath + "/Tests");
+        DirectoryInfo dirInfo;
+
+        if (!Directory.Exists(e.sourcePath + "\\Tests")){
+            dirInfo = Directory.CreateDirectory(e.sourcePath + "\\Tests");
+        }
+        else{
+            dirInfo = new DirectoryInfo(e.sourcePath + "\\Tests");   
+        }
 
         using (FileStream fs = new FileStream(dirInfo.FullName + "/" + test.title + ".json", FileMode.OpenOrCreate, FileAccess.Write))
         {
             fs.SetLength(0);
 
-            string json = JsonConvert.SerializeObject(test.questions);
+            string json = JsonConvert.SerializeObject(test);
 
             byte[] buffer = Encoding.UTF8.GetBytes(json);
 

@@ -28,7 +28,7 @@ public class ApplicationBuilder
 
     private void AssignConfigurationForUrls()
     {
-        FileStream fs = new FileStream(PathToRouteConfigurationFile, FileMode.Open, FileAccess.ReadWrite);
+        using FileStream fs = new FileStream(PathToRouteConfigurationFile, FileMode.Open, FileAccess.ReadWrite);
 
         byte[] jsonInBytes = new byte[fs.Length];
 
@@ -37,9 +37,6 @@ public class ApplicationBuilder
         string json = Encoding.UTF8.GetString(jsonInBytes);
 
         configurations = JsonConvert.DeserializeObject<Dictionary<string, RouteConfiguration>>(json);
-
-        fs.Close();
-        fs.Dispose();
     }
 
     private void AssignRoutes()
@@ -95,7 +92,7 @@ public class ApplicationBuilder
                 sourcePath = path
             };
 
-            FileStream fs = new FileStream(PathToAppConfigurationFile, FileMode.Open, FileAccess.ReadWrite);
+            using FileStream fs = new FileStream(PathToAppConfigurationFile, FileMode.Open, FileAccess.ReadWrite);
 
             byte[] jsonInBytes = new byte[fs.Length];
 
@@ -115,9 +112,6 @@ public class ApplicationBuilder
 
             fs.Write(jsonInBytes, 0, jsonInBytes.Length);
 
-            fs.Close();
-            fs.Dispose();
-
             return true;
         }
 
@@ -126,7 +120,7 @@ public class ApplicationBuilder
 
     public string GetSourceDirectory()
     {
-        FileStream fs = new FileStream(PathToAppConfigurationFile, FileMode.Open, FileAccess.Read);
+        using FileStream fs = new FileStream(PathToAppConfigurationFile, FileMode.Open, FileAccess.Read);
 
         byte[] jsonInBytes = new byte[fs.Length];
 
@@ -143,9 +137,6 @@ public class ApplicationBuilder
         if (appConfiguration.sourcePath.Trim() == "" || appConfiguration.sourcePath == null){
             throw new NullReferenceException("First, you need to set the source path");
         }
-
-        fs.Close();
-        fs.Dispose();
 
         return appConfiguration.sourcePath;
     }

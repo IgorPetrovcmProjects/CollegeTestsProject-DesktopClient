@@ -8,5 +8,10 @@
     {
         "method": "POST",
         "query": ""
+    },
+    "/updatetest/":
+    {
+        "method": "POST",
+        "query": "name"
     }
 }

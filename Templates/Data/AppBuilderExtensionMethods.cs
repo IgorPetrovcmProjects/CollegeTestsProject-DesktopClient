@@ -67,6 +67,10 @@ public static partial class ApplicationBuilderExtensionMethods
         commandStrings = commandStrings.Replace("\r\n", "");
 
         string[] commands = commandStrings.Split(';');
+        for (int i = 0; i < commands.Length; i++)
+        {
+            commands[i] = commands[i].Trim();
+        }
 
         int count = 1;
 
@@ -74,6 +78,8 @@ public static partial class ApplicationBuilderExtensionMethods
         {
             try
             {
+                command.Trim();
+
                 if (command == "apply"){
                     templateDataEventArgs.Invoke();
 
