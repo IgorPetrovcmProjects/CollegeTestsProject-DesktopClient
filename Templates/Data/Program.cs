@@ -5,14 +5,14 @@ using Templates.Data.Routing;
 
 public class Program 
 {
-    static ApplicationBuilder appBuilder;
 
     static void Main(string[] args)
     {
+        ApplicationBuilder appBuilder;        
         while (true)
         {
             appBuilder = new ApplicationBuilder();
-
+            
             try 
             {
                 if (!appBuilder.UseRouting( new TemplateDataRoute( appBuilder ) )) continue;
