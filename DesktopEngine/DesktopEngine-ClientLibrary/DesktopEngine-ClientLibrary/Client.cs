@@ -40,5 +40,12 @@
 
 			return await _client.PostAsync(url, byteArrayContent);
 		}
+
+		public async Task<HttpResponseMessage> SendDeleteRequest(string url)
+		{
+			_client = new HttpClient();
+
+			return await _client.DeleteAsync(url);
+		}
 	}
 }

@@ -1,1 +1,7 @@
-[{"question":"What day","answerOptions":["Bad","Good"],"answers":[2]}]
+[
+    {
+        "question":"What day",
+        "answerOptions":["Good","Bad"],
+        "answers":[2]
+    }
+]

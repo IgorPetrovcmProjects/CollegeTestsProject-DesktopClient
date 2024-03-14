@@ -57,5 +57,19 @@
 				return true;
 			}
 		}
+
+		public async Task<bool> DeleteTest(string name)
+		{
+			Client client = new Client();
+
+			HttpResponseMessage response = await client.SendDeleteRequest(MainUrl + "/deletetest/?name=" + name);
+
+			if ((int)response.StatusCode > 300){
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
 	}
 }

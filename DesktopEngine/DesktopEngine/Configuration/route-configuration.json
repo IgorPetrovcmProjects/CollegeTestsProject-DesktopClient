@@ -7,7 +7,7 @@
     "/createtest/":
     {
         "method": "POST",
-        "query": ""
+        "query": "name"
     },
     "/updatetest/":
     {
