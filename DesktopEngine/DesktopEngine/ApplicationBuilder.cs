@@ -132,14 +132,24 @@ public class ApplicationBuilder
 
 		ApplicationConfiguration? appConfiguration = JsonConvert.DeserializeObject<ApplicationConfiguration>(json);
 
-		if (appConfiguration == null)
-		{
-			throw new NullReferenceException("A global project error has occurred");
-		}
+		if (appConfiguration == null || appConfiguration.sourcePath?.Trim() == ""){
+			if (!Directory.Exists(Environment.CurrentDirectory + "\\source")){
+				Directory.CreateDirectory(Environment.CurrentDirectory + "\\source");
+			}
 
-		if (appConfiguration.sourcePath.Trim() == "" || appConfiguration.sourcePath == null)
-		{
-			throw new NullReferenceException("First, you need to set the source path");
+			DirectoryInfo newSourceDirectory = new DirectoryInfo(Environment.CurrentDirectory + "\\source");
+
+			appConfiguration = new ApplicationConfiguration();
+
+			appConfiguration.sourcePath = newSourceDirectory.FullName;
+
+			string newJson = JsonConvert.SerializeObject(appConfiguration);
+
+			byte[] newJsonInBytes = Encoding.UTF8.GetBytes(newJson);
+
+			fs.SetLength(0);
+
+			fs.Write(newJsonInBytes, 0, newJsonInBytes.Length);
 		}
 
 		return appConfiguration.sourcePath;
