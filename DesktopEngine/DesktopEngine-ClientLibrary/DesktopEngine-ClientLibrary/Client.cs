@@ -47,5 +47,14 @@
 
 			return await _client.DeleteAsync(url);
 		}
+
+		public async Task<HttpResponseMessage> SendUpdateRequest(string url, byte[] bytesForRequest)
+		{
+			_client = new HttpClient();
+
+			ByteArrayContent byteArrayContent = new ByteArrayContent(bytesForRequest);
+
+			return await _client.PutAsync(url, byteArrayContent);
+		}
 	}
 }
