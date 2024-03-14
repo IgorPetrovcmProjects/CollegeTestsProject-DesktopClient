@@ -34,9 +34,9 @@ public class GetTitlesRouteHandler : RouteHandler
 		string jsonWithTitles = JsonConvert.SerializeObject(titles);
 
 		builder.Context.Response.StatusCode = 200;
-
-		builder.Context.Response.StatusDescription = jsonWithTitles;
-
+		builder.ServerAnswer = jsonWithTitles;
+		builder.Context.Response.ContentType = "application/json";
+		
 		builder.AddFinalStatusCode(200);
 
 		return false;

@@ -16,7 +16,7 @@ public class Program
 			try
 			{
 				if (!appBuilder.UseRouting(new TemplateDataRoute(appBuilder))) continue;
-				if (!appBuilder.UseCommandExecution()) continue;
+				if (!appBuilder.UseSimpleEndpoint()) continue;
 			}
 			catch (ApplicationMiddlewareException ex)
 			{

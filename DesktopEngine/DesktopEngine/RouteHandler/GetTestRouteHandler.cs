@@ -11,7 +11,7 @@ public class GetTestRouteHandler : RouteHandler
 
 	public override bool Run(ApplicationBuilder builder)
 	{
-		Regex recognizeRegex = new Regex(@$"[a-zA-Z0-9\?\/\\=\:\.]+\?{configuration.query}=([a-zA-Z0-9\?\/\\=\:\.\-\s]+)");
+		Regex recognizeRegex = new Regex(@$"[a-zA-Z0-9\?\/\\=\:\.]+\?{configuration.query}=([АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяa-zA-Z0-9\?\/\\=\:\.\-\s]+)");
 
 		Match match = recognizeRegex.Match(builder.Context.Request.Url.ToString());
 
@@ -34,8 +34,8 @@ public class GetTestRouteHandler : RouteHandler
 		string jsonWithTest = Encoding.UTF8.GetString(jsonInBytes);
 
 		builder.Context.Response.StatusCode = 200;
-
-		builder.Context.Response.StatusDescription = jsonWithTest;
+		builder.ServerAnswer = jsonWithTest;
+		builder.Context.Response.ContentType = "application/json";
 
 		builder.AddFinalStatusCode(200);
 

@@ -11,8 +11,11 @@ public static partial class ApplicationBuilderExtensionMethods
 	{
 		if (builder.FinalStatusCodes.Any(x => x == builder.Context.Response.StatusCode))
 		{
-
-			builder.SendMessageAndExit(builder.Context.Response.StatusDescription, builder.Context.Response.StatusCode);
+			builder.SendMessageAndExit(builder.ServerAnswer != null 
+				? builder.ServerAnswer 
+				: builder.Context.Response.StatusDescription,
+				builder.Context.Response.StatusCode
+				);
 
 			return false;
 		}
@@ -125,5 +128,11 @@ public static partial class ApplicationBuilderExtensionMethods
 		}
 
 		return true;
+	}
+
+	public static bool UseSimpleEndpoint(this ApplicationBuilder builder)
+	{
+		if (!IsExit(builder)) return false;
+		else return true;
 	}
 }

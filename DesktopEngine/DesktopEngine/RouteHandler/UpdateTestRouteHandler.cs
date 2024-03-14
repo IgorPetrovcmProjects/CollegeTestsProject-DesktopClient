@@ -13,7 +13,7 @@ public class UpdateTestRouteHandler : RouteHandler
 
 	public override bool Run(ApplicationBuilder builder)
 	{
-		Regex recognizeRegex = new Regex(@$"[a-zA-Z0-9\?\/\\=\:\.]+\?{configuration.query}=([a-zA-Z0-9\?\/\\=\:\.\-\s]+)");
+		Regex recognizeRegex = new Regex(@$"[a-zA-Z0-9\?\/\\=\:\.]+\?{configuration.query}=([АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяa-zA-Z0-9\?\/\\=\:\.\-\s]+)");
 
 		Match match = recognizeRegex.Match(builder.Context.Request.Url.ToString());
 
@@ -65,7 +65,8 @@ public class UpdateTestRouteHandler : RouteHandler
 
 		fs.Write(newJsonInBytes, 0, newJsonInBytes.Length);
 
-		builder.AddFinalStatusCode(204);
+		builder.Context.Response.StatusCode = 200;
+		builder.AddFinalStatusCode(200);
 
 		return false;
 	}

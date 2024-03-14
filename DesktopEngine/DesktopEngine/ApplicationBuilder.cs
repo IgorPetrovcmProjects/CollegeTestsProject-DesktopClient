@@ -19,6 +19,10 @@ public class ApplicationBuilder
 
 	private const string Url = "http://127.0.0.1:3330";
 
+	private string? serverAnswer;
+
+	public string? ServerAnswer { get { return serverAnswer; } set { serverAnswer = value; } } 
+
 	private HttpListener listener = new HttpListener();
 	public HttpListener Listener { get { return listener; } }
 
