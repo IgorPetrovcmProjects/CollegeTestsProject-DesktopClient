@@ -23,6 +23,17 @@
 			return json;
 		}
 
+		public async Task<object> GetTitlesCommand(string url)
+		{
+			_client = new HttpClient();
+
+			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
+
+			object? json = await _client.GetFromJsonAsync(url, typeof(List<string>));
+
+			return json;
+		}
+
 		public async Task<HttpResponseMessage> SendGetCommand(string url)
 		{
 			_client = new HttpClient();

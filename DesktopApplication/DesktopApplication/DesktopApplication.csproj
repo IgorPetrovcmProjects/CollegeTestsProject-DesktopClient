@@ -62,4 +62,13 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Reference Include="DesktopEngine-ClientLibrary">
+	    <HintPath>..\..\DesktopEngine\DesktopEngine-ClientLibrary\DesktopEngine-ClientLibrary\bin\Debug\net8.0\DesktopEngine-ClientLibrary.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Model">
+	    <HintPath>..\..\DesktopEngine\DesktopEngine-ClientLibrary\DesktopEngine-ClientLibrary\bin\Debug\net8.0\Model.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
 </Project>

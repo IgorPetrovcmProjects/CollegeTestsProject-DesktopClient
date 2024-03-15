@@ -24,7 +24,7 @@
 		{
 			Client client = new Client();
 
-			if (await client.SendGetRequest(MainUrl + "/gettitles/", typeof(List<string>)) is List<string> titles){
+			if (await client.GetTitlesCommand(MainUrl + "/gettitles/") is List<string> titles){
 				return titles;
 			}
 			else {

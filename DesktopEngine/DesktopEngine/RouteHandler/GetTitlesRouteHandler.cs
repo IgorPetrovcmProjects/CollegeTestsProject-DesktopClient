@@ -14,7 +14,7 @@ public class GetTitlesRouteHandler : RouteHandler
 	{
 		string sourcePath = builder.GetSourceDirectory();
 
-		string allTestsPath = sourcePath + "//Tests//";
+		string allTestsPath = sourcePath + "\\Tests";
 
 		if (!Directory.Exists(allTestsPath))
 		{

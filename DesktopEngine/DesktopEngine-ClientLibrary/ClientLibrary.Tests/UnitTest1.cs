@@ -46,6 +46,19 @@ namespace ClientLibrary.Tests
 				);
 		}
 
+		[Test, Order(3)]
+		public async Task GetTitles_GetAllTitles_GetAllTestTitles()
+		{
+			DesktopClient client = new DesktopClient();
+
+			List<string> titles = await client.GetTitles();
+
+			Assert.That(
+				titles.Count > 0,
+				Is.True
+				);
+		}
+
 		[Test, Order(4)]
 		public async Task DeleteTest_DeleteExistsTest_TestDeleted()
 		{

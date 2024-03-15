@@ -5,11 +5,13 @@
     <ScrollView>
         <StackLayout>
             <Button Margin="10" HeightRequest="60" WidthRequest="250" Text="Create Test" VerticalOptions="Start" HorizontalOptions="Start"></Button>
-            <Border Stroke="BlueViolet" HorizontalOptions="Start" WidthRequest="970" HeightRequest="500">
+            <Border x:Name="borderForTests" Stroke="BlueViolet" HorizontalOptions="Start" WidthRequest="985" HeightRequest="585">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="20"></RoundRectangle>
                 </Border.StrokeShape>
-                <VerticalStackLayout></VerticalStackLayout>
+                <VerticalStackLayout x:Name="stackForTests">
+                    
+                </VerticalStackLayout>
             </Border>
         </StackLayout>
     </ScrollView>
