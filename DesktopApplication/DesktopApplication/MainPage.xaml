@@ -3,6 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DesktopApplication.MainPage">
     <ScrollView>
-        <Border HeightRequest="400" WidthRequest="600" HorizontalOptions="Center" VerticalOptions="Center"></Border>
+        <StackLayout>
+            <Button Margin="10" HeightRequest="60" WidthRequest="250" Text="Create Test" VerticalOptions="Start" HorizontalOptions="Start"></Button>
+            <Border Stroke="BlueViolet" HorizontalOptions="Start" WidthRequest="970" HeightRequest="500">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"></RoundRectangle>
+                </Border.StrokeShape>
+                <VerticalStackLayout></VerticalStackLayout>
+            </Border>
+        </StackLayout>
     </ScrollView>
 </ContentPage>
