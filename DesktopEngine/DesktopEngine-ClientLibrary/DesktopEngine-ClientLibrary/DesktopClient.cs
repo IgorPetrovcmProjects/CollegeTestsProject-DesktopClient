@@ -1,88 +1,125 @@
 ﻿namespace DesktopEngine_ClientLibrary
 {
 	using DesktopEngine.Model;
+	using System.Text;
+	using Newtonsoft.Json;
+	using System.Xml.Linq;
 
 	public class DesktopClient 
 	{
 		private const string MainUrl = "http://127.0.0.1:3330";
 
-		public async Task<string> AssignSourcePath(string path)
+		public void AssignSourcePath(string path)
 		{
 			Client client = new Client();
 
-			HttpResponseMessage response = await client.SendGetCommand(MainUrl + "/sourcepath/?path=" + path);
+			using HttpResponseMessage response = client.SendGetCommand(MainUrl + "/sourcepath/?path=" + path);
+
+			using Stream stream = response.Content.ReadAsStream();
+
+			byte[] buffer = new byte[stream.Length];
+
+			stream.Write(buffer, 0, buffer.Length);
 
 			if ((int)response.StatusCode > 300){
-				return await response.Content.ReadAsStringAsync();
+				throw new HttpRequestException(Encoding.UTF8.GetString(buffer));
 			}
-			else {
-				return "";
-			}
+			
 		}
 
-		public async Task<List<string>> GetTitles()
+		public List<string> GetTitles()
 		{
 			Client client = new Client();
 
-			if (await client.GetTitlesCommand(MainUrl + "/gettitles/") is List<string> titles){
-				return titles;
-			}
-			else {
-				return new List<string>();
-			}
-		}
+			using HttpResponseMessage response = client.SendGetRequest(MainUrl + "/gettitles/");
 
-		public async Task<List<Question>> GetTest(string name)
-		{
-			Client client = new Client();
+			using Stream stream = response.Content.ReadAsStream();
 
-			if (await client.SendGetRequest(MainUrl + "/gettest/?name=" + name, typeof(List<Question>)) is List<Question> questions){
-				return questions;
+			byte[] buffer = new byte[stream.Length];
+
+			stream.Write(buffer, 0, buffer.Length);
+
+			if ((int)response.StatusCode > 300)
+			{
+				throw new HttpRequestException(Encoding.UTF8.GetString(buffer));
 			}
-			else {
-				return new List<Question>();
+			else
+			{
+				return JsonConvert.DeserializeObject <List<string>> (Encoding.UTF8.GetString(buffer));
 			}
 		}
 
-		public async Task<string> CreateTest(string name, byte[] jsonInBytes)
+		public List<Question> GetTest(string name)
 		{
 			Client client = new Client();
 
-			HttpResponseMessage response = await client.SendPostRequest(MainUrl + "/createtest/?name=" + name, jsonInBytes);
+			using HttpResponseMessage response = client.SendGetRequest(MainUrl + "/gettest/?name=" + name);
+
+			using Stream stream = response.Content.ReadAsStream();
+
+			byte[] buffer = new byte[stream.Length];
+
+			stream.Write(buffer, 0, buffer.Length);
 
 			if ((int)response.StatusCode > 300){
-				return await response.Content.ReadAsStringAsync();
+				throw new HttpRequestException(Encoding.UTF8.GetString(buffer));
 			}
 			else {
-				return "";
+				return JsonConvert.DeserializeObject <List<Question>> (Encoding.UTF8.GetString(buffer));
 			}
 		}
 
-		public async Task<string> DeleteTest(string name)
+		public string CreateTest(string name, string jsonWithTest)
 		{
 			Client client = new Client();
 
-			HttpResponseMessage response = await client.SendDeleteRequest(MainUrl + "/deletetest/?name=" + name);
+			using HttpResponseMessage response = client.SendPostRequest(MainUrl + "/createtest/?name=" + name, jsonWithTest);
+
+			using Stream stream = response.Content.ReadAsStream();
+
+			byte[] buffer = new byte[stream.Length];
 
 			if ((int)response.StatusCode > 300){
-				return await response.Content.ReadAsStringAsync();
+				throw new HttpRequestException(Encoding.UTF8.GetString(buffer));
 			}
 			else {
-				return "";
+				return Encoding.UTF8.GetString(buffer);
 			}
 		}
 
-		public async Task<string> UpdateTest(string name, byte[] jsonInBytes)
+		public string DeleteTest(string name)
 		{
 			Client client = new Client();
 
-			HttpResponseMessage response = await client.SendUpdateRequest(MainUrl + "/updatetest/?name=" + name, jsonInBytes);
+			using HttpResponseMessage response = client.SendDeleteRequest(MainUrl + "/deletetest/?name=" + name);
+
+			using Stream stream = response.Content.ReadAsStream();
+
+			byte[] buffer = new byte[stream.Length];
 
 			if ((int)response.StatusCode > 300){
-				return await response.Content.ReadAsStringAsync();
+				throw new HttpRequestException (Encoding.UTF8.GetString(buffer));
 			}
 			else {
-				return "";
+				return Encoding.UTF8.GetString (buffer);
+			}
+		}
+
+		public string UpdateTest(string name, string jsonWithNewTest)
+		{
+			Client client = new Client();
+
+			HttpResponseMessage response = client.SendPutRequest(MainUrl + "/updatetest/?name=" + name, jsonWithNewTest);
+
+			using Stream stream = response.Content.ReadAsStream();
+
+			byte[] buffer = new byte[stream.Length];
+
+			if ((int)response.StatusCode > 300){
+				throw new HttpRequestException(Encoding.UTF8.GetString(buffer));
+			}
+			else {
+				return Encoding.UTF8.GetString(buffer);
 			}
 		}
 

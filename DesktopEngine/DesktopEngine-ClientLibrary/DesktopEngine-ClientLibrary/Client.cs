@@ -3,24 +3,27 @@
 
 	using System.Net.Http;
     using System.Net.Http.Json;
+	using System.Text;
 
-    public class Client
+	public class Client
 	{
 		private static HttpClient? _client;
 
-		public async Task<object> SendGetRequest(string url, Type returnedType)
+		public HttpResponseMessage SendGetRequest(string url)
 		{
 			_client = new HttpClient();
 
-			object? json = await _client.GetFromJsonAsync(url, returnedType);
+			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
 
-			if (json == null){
-				/*object ob = new object();
-				return Convert.ChangeType(ob, returnedType);*/
-				return null;
-			}
+			return _client.Send(request);
 
-			return json;
+			/*Stream stream = response.Content.ReadAsStream();
+
+			byte[] buffer = new byte[1204];
+
+			stream.Read(buffer, 0, (int)stream.Length);
+
+			return Encoding.UTF8.GetString(buffer);*/
 		}
 
 		public async Task<object> GetTitlesCommand(string url)
@@ -34,38 +37,44 @@
 			return json;
 		}
 
-		public async Task<HttpResponseMessage> SendGetCommand(string url)
+		public HttpResponseMessage SendGetCommand(string url)
 		{
 			_client = new HttpClient();
 
 			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "url");
 
-			return await _client.SendAsync(request);
+			return _client.Send(request);
 		}
 
-		public async Task<HttpResponseMessage> SendPostRequest(string url, byte[] bytesForRequest)
+		public HttpResponseMessage SendPostRequest(string url, string jsonForRequest)
 		{
 			_client = new HttpClient();
 
-			ByteArrayContent byteArrayContent = new ByteArrayContent(bytesForRequest);
+			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
 
-			return await _client.PostAsync(url, byteArrayContent);
+			request.Content = new StringContent(jsonForRequest, Encoding.UTF8, "application/json");
+
+			return _client.Send(request);
 		}
 
-		public async Task<HttpResponseMessage> SendDeleteRequest(string url)
+		public HttpResponseMessage SendDeleteRequest(string url)
 		{
 			_client = new HttpClient();
 
-			return await _client.DeleteAsync(url);
+			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url);
+
+			return _client.Send(request);
 		}
 
-		public async Task<HttpResponseMessage> SendUpdateRequest(string url, byte[] bytesForRequest)
+		public HttpResponseMessage SendPutRequest(string url, string jsonForRequest)
 		{
 			_client = new HttpClient();
 
-			ByteArrayContent byteArrayContent = new ByteArrayContent(bytesForRequest);
+			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url);
 
-			return await _client.PutAsync(url, byteArrayContent);
+			request.Content = new StringContent(jsonForRequest, Encoding.UTF8, "application/json");
+
+			return _client.Send(request);
 		}
 	}
 }

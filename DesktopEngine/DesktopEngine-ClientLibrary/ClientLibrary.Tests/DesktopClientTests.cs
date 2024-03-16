@@ -6,11 +6,29 @@ namespace ClientLibrary.Tests
 	using System.Text;
 
 	[TestFixture]
-	public class Tests
+	public class DesktopClientTests
 	{
+		private string GetPathWithConfiguration()
+		{
+			string pathWithConfiguration;
+#if DEBUG
+			pathWithConfiguration = Environment.CurrentDirectory;
+#else
+			pathWithConfiguration = Environment.CurrentDirectory + "\\bin\\Debug\\net8.0\\";
+#endif
+			return pathWithConfiguration;
+		}
+
+		[Test, Order(0)]
+		public void AssignSourcePath_AttemptToAssignSourcePath_SourcePathAssigned()
+		{
+			DesktopClient client = new DesktopClient();
+
+			string sourcePath = 
+		}
 
 		[Test, Order(1)]
-		public async Task CreateTest_CreateSingleTest_TestCreated()
+		public void CreateTest_CreateSingleTest_TestCreated()
 		{
 			DesktopClient client = new DesktopClient();
 
@@ -23,7 +41,7 @@ namespace ClientLibrary.Tests
 
 			string json = JsonConvert.SerializeObject(questions);
 
-			string serverAnswer = await client.CreateTest(testTitle, Encoding.UTF8.GetBytes(json));
+			string serverAnswer = client.CreateTest(testTitle, json);
 
 			Assert.That(
 				serverAnswer,
