@@ -17,12 +17,13 @@
 
 			using Stream stream = response.Content.ReadAsStream();
 
-			byte[] buffer = new byte[stream.Length];
+			using StreamReader reader = new StreamReader( response.Content.ReadAsStream(), Encoding.UTF8 );
 
-			stream.Write(buffer, 0, buffer.Length);
+			string message = reader.ReadToEnd();
+
 
 			if ((int)response.StatusCode > 300){
-				throw new HttpRequestException(Encoding.UTF8.GetString(buffer));
+				throw new HttpRequestException(message);
 			}
 			
 		}
@@ -35,17 +36,17 @@
 
 			using Stream stream = response.Content.ReadAsStream();
 
-			byte[] buffer = new byte[stream.Length];
+			using StreamReader reader = new StreamReader(stream, Encoding.UTF8);
 
-			stream.Write(buffer, 0, buffer.Length);
+			string message = reader.ReadToEnd();
 
 			if ((int)response.StatusCode > 300)
 			{
-				throw new HttpRequestException(Encoding.UTF8.GetString(buffer));
+				throw new HttpRequestException(message);
 			}
 			else
 			{
-				return JsonConvert.DeserializeObject <List<string>> (Encoding.UTF8.GetString(buffer));
+				return JsonConvert.DeserializeObject <List<string>> (message);
 			}
 		}
 
@@ -57,15 +58,15 @@
 
 			using Stream stream = response.Content.ReadAsStream();
 
-			byte[] buffer = new byte[stream.Length];
+			StreamReader reader = new StreamReader(stream, Encoding.UTF8);
 
-			stream.Write(buffer, 0, buffer.Length);
+			string message = reader.ReadToEnd();
 
 			if ((int)response.StatusCode > 300){
-				throw new HttpRequestException(Encoding.UTF8.GetString(buffer));
+				throw new HttpRequestException(message);
 			}
 			else {
-				return JsonConvert.DeserializeObject <List<Question>> (Encoding.UTF8.GetString(buffer));
+				return JsonConvert.DeserializeObject <List<Question>> (message);
 			}
 		}
 
@@ -77,13 +78,15 @@
 
 			using Stream stream = response.Content.ReadAsStream();
 
-			byte[] buffer = new byte[stream.Length];
+			StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+
+			string message = reader.ReadToEnd();
 
 			if ((int)response.StatusCode > 300){
-				throw new HttpRequestException(Encoding.UTF8.GetString(buffer));
+				throw new HttpRequestException(message);
 			}
 			else {
-				return Encoding.UTF8.GetString(buffer);
+				return message;
 			}
 		}
 
@@ -95,13 +98,15 @@
 
 			using Stream stream = response.Content.ReadAsStream();
 
-			byte[] buffer = new byte[stream.Length];
+			StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+
+			string message = reader.ReadToEnd();
 
 			if ((int)response.StatusCode > 300){
-				throw new HttpRequestException (Encoding.UTF8.GetString(buffer));
+				throw new HttpRequestException (message);
 			}
 			else {
-				return Encoding.UTF8.GetString (buffer);
+				return message;
 			}
 		}
 
@@ -113,13 +118,15 @@
 
 			using Stream stream = response.Content.ReadAsStream();
 
-			byte[] buffer = new byte[stream.Length];
+			StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+
+			string message = reader.ReadToEnd();
 
 			if ((int)response.StatusCode > 300){
-				throw new HttpRequestException(Encoding.UTF8.GetString(buffer));
+				throw new HttpRequestException(message);
 			}
 			else {
-				return Encoding.UTF8.GetString(buffer);
+				return message;
 			}
 		}
 

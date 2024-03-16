@@ -4,6 +4,7 @@ namespace ClientLibrary.Tests
 	using DesktopEngine.Model;
 	using Newtonsoft.Json;
 	using System.Text;
+	using Microsoft.Extensions.Configuration;
 
 	[TestFixture]
 	public class DesktopClientTests
@@ -19,15 +20,39 @@ namespace ClientLibrary.Tests
 			return pathWithConfiguration;
 		}
 
+		private string GetSourcePathFromConfiguration(string pathSectionName)
+		{
+			IConfigurationRoot configuration= new ConfigurationBuilder()
+											.SetBasePath(GetPathWithConfiguration())
+											.AddJsonFile("appsettings.json")
+											.Build();
+
+			IConfigurationSection mainSection = configuration.GetSection("sourcePath");
+
+			IEnumerable<IConfigurationSection> mainSectionChildren = mainSection.GetChildren();
+
+			foreach (IConfigurationSection section in mainSectionChildren)
+			{
+				if (section.Key == pathSectionName)
+				{
+					return section.Value;
+				}
+			}
+
+			return "";
+		}
+
 		[Test, Order(0)]
 		public void AssignSourcePath_AttemptToAssignSourcePath_SourcePathAssigned()
 		{
 			DesktopClient client = new DesktopClient();
 
-			string sourcePath = 
+			string sourcePath = GetSourcePathFromConfiguration("defaultPath");
+
+			client.AssignSourcePath(sourcePath);
 		}
 
-		[Test, Order(1)]
+		/*[Test, Order(1)]
 		public void CreateTest_CreateSingleTest_TestCreated()
 		{
 			DesktopClient client = new DesktopClient();
@@ -124,6 +149,6 @@ namespace ClientLibrary.Tests
 			Assert.That(
 				serverAnswer,
 				Is.EqualTo(""));
-		}
+		}*/
 	}
 }

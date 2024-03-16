@@ -41,7 +41,7 @@
 		{
 			_client = new HttpClient();
 
-			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "url");
+			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
 
 			return _client.Send(request);
 		}
