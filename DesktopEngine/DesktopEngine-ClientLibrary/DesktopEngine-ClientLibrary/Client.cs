@@ -43,6 +43,8 @@
 
 			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
 
+			request.RequestUri.AbsoluteUri = url;
+
 			return _client.Send(request);
 		}
 
