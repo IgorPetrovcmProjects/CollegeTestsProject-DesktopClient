@@ -16,14 +16,6 @@
 			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
 
 			return _client.Send(request);
-
-			/*Stream stream = response.Content.ReadAsStream();
-
-			byte[] buffer = new byte[1204];
-
-			stream.Read(buffer, 0, (int)stream.Length);
-
-			return Encoding.UTF8.GetString(buffer);*/
 		}
 
 		public async Task<object> GetTitlesCommand(string url)

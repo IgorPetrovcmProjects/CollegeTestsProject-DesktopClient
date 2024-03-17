@@ -12,15 +12,30 @@
 		{
 			InitializeComponent();
 
+			ConfigurationDeliverer configuration = new ConfigurationDeliverer();
+
 			client = new DesktopClient();
 
-			client.AssignSourcePath("C:\\Users\\Honor\\Desktop\\MyProjects\\CollegeTestsProject\\CollegeTestsProject-DesktopClient\\DesktopEngine\\DesktopEngine.Tests\\source");
+			client.AssignSourcePath(configuration.GetSourcePathFromConfiguration("defaultPath"));
 
-			titles = client.GetTitles().Result;
-
-			foreach (string title in titles)
+			try
 			{
-				stackForTests.Add(CreateBorderForTest(title));
+				titles = client.GetTitles();
+
+				if (titles.Count == 0)
+				{
+					stackForTests.Add(new Label { Text = "There are no tests" });
+					return;
+				}
+
+				foreach (string title in titles)
+				{
+					stackForTests.Add(CreateBorderForTest(title));
+				}
+			}
+			catch (Exception ex)
+			{
+				stackForTests.Add(new Label { Text = ex.Message });
 			}
 		}
 
