@@ -7,7 +7,7 @@
         <VerticalStackLayout>
 
             <Button Clicked="BtnBack_Click" Text="Back" TextColor="Black" BackgroundColor="#E2E1E1" HorizontalOptions="End" Margin="0,10,20,0" WidthRequest="100"></Button>
-            <Label Grid.Column="0" BindingContext="{Reference inputNameTest}"  Text="{Binding Text}"  FontSize="26" Margin="40,3,0,0" HorizontalOptions="Start"></Label>
+            <Label x:Name="testNameLabel" Grid.Column="0" BindingContext="{Reference inputNameTest}"  Text="{Binding Text}"  FontSize="26" Margin="40,3,0,0" HorizontalOptions="Start"></Label>
             <Entry x:Name="inputNameTest" Text="Name of the test" HeightRequest="30" WidthRequest="600" HorizontalOptions="Start" Margin="40,30,0,0"></Entry>
             <Border x:Name="borderForTests" Margin="0,15,0,15" Stroke="CadetBlue" HorizontalOptions="Center" WidthRequest="970" HeightRequest="580">
                 <Border.StrokeShape>
@@ -19,6 +19,7 @@
                     </VerticalStackLayout>
                 </ScrollView>
             </Border>
+            <Button Text="Save" BackgroundColor="CornflowerBlue" FontSize="16" Clicked="BtnSave_Click"></Button>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

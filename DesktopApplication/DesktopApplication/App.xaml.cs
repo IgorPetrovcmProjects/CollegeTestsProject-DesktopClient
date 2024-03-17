@@ -6,7 +6,7 @@
 		{
 			InitializeComponent();
 
-			Routing.RegisterRoute("MainPage", typeof(MainPage));
+			Routing.RegisterRoute("HomePage", typeof(MainPage));
 			Routing.RegisterRoute("CreateTestPage", typeof(CreateTestPage));
 
 			MainPage = new AppShell();

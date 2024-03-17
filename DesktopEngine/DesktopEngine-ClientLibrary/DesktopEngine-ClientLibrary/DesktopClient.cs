@@ -3,7 +3,6 @@
 	using DesktopEngine.Model;
 	using System.Text;
 	using Newtonsoft.Json;
-	using System.Xml.Linq;
 
 	public class DesktopClient 
 	{
@@ -70,11 +69,13 @@
 			}
 		}
 
-		public string CreateTest(string name, string jsonWithTest)
+		public string CreateTest(string name, List<Question> questions)
 		{
 			Client client = new Client();
 
-			using HttpResponseMessage response = client.SendPostRequest(MainUrl + "/createtest/?name=" + name, jsonWithTest);
+			string jsonWithQuestions = JsonConvert.SerializeObject(questions);
+
+			using HttpResponseMessage response = client.SendPostRequest(MainUrl + "/createtest/?name=" + name, jsonWithQuestions);
 
 			using Stream stream = response.Content.ReadAsStream();
 
@@ -110,9 +111,11 @@
 			}
 		}
 
-		public string UpdateTest(string name, string jsonWithNewTest)
+		public string UpdateTest(string name, List<Question> newQuestions)
 		{
 			Client client = new Client();
+
+			string jsonWithNewTest = JsonConvert.SerializeObject(newQuestions);
 
 			HttpResponseMessage response = client.SendPutRequest(MainUrl + "/updatetest/?name=" + name, jsonWithNewTest);
 

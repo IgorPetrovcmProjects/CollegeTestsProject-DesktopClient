@@ -1,6 +1,7 @@
 namespace DesktopApplication;
 
 using DesktopEngine.Model;
+using DesktopEngine_ClientLibrary;
 
 public partial class CreateTestPage : ContentPage
 {
@@ -66,7 +67,7 @@ public partial class CreateTestPage : ContentPage
 
 	public async void BtnBack_Click(object? sender, EventArgs e)
 	{
-		await Navigation.PopAsync();
+		await Navigation.PushAsync(new MainPage());
 	}
 
 	public void BtnAddAnswer_Click(object? sender, EventArgs e)
@@ -91,5 +92,63 @@ public partial class CreateTestPage : ContentPage
 
 			stack.Add(horizontalStack);
 		}
+	}
+
+	public async void BtnSave_Click(object? sender, EventArgs e)
+	{
+		foreach (IView view in stackForTest.Children)
+		{
+			if (view is Border borderForQuestion)
+			{
+				ScrollView scrollInBorder = (ScrollView)borderForQuestion.Content;
+
+				VerticalStackLayout mainStack = (VerticalStackLayout)scrollInBorder.Content;
+
+				Question question = new Question();
+
+				foreach (IView viewInStack in mainStack)
+				{
+					if (viewInStack is Label labelWithName)
+					{
+						question.question = labelWithName.Text;
+					}
+					if (viewInStack is VerticalStackLayout stackWithAnswers)
+					{
+						int countAnswers = 0;
+
+						foreach (IView viewInAnswers in stackWithAnswers.Children)
+						{
+							if (viewInAnswers is HorizontalStackLayout stackWithAnswer)
+							{
+								countAnswers++;
+
+								foreach (IView answerOption in stackWithAnswer)
+								{
+									if (answerOption is Entry answerEntry)
+									{
+										question.answerOptions.Add(answerEntry.Text);
+									}
+									if (answerOption is CheckBox answer)
+									{
+										if (answer.IsChecked)
+										{
+											question.answers.Add(countAnswers);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+				questions.Add(question);
+			}
+
+		}
+
+		DesktopClient desktopClient = new DesktopClient();
+		desktopClient.CreateTest(testNameLabel.Text, questions);
+
+		await Navigation.PushAsync(new MainPage());
 	}
 }
