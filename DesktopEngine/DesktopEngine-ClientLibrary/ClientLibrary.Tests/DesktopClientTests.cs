@@ -52,7 +52,7 @@ namespace ClientLibrary.Tests
 			client.AssignSourcePath(sourcePath);
 		}
 
-		/*[Test, Order(1)]
+		[Test, Order(1)]
 		public void CreateTest_CreateSingleTest_TestCreated()
 		{
 			DesktopClient client = new DesktopClient();
@@ -70,7 +70,7 @@ namespace ClientLibrary.Tests
 
 			Assert.That(
 				serverAnswer,
-				Is.EqualTo("")
+				Is.EqualTo("OK")
 				);
 		}
 
@@ -81,7 +81,7 @@ namespace ClientLibrary.Tests
 
 			string testTitle = "HowDay";
 
-			List<Question> questions = await client.GetTest(testTitle);
+			List<Question> questions = client.GetTest(testTitle);
 
 			Assert.That(
 				questions.Count > 0,
@@ -94,7 +94,7 @@ namespace ClientLibrary.Tests
 		{
 			DesktopClient client = new DesktopClient();
 
-			List<string> titles = await client.GetTitles();
+			List<string> titles = client.GetTitles();
 
 			Assert.That(
 				titles.Count > 0,
@@ -109,11 +109,11 @@ namespace ClientLibrary.Tests
 
 			string testTitle = "HowDay";
 
-			string serverAnswer = await client.DeleteTest(testTitle);
+			string serverAnswer = client.DeleteTest(testTitle);
 
 			Assert.That(
 				serverAnswer,
-				Is.EqualTo("")
+				Is.EqualTo("OK")
 				);
 		}
 
@@ -131,11 +131,11 @@ namespace ClientLibrary.Tests
 
 			string json = JsonConvert.SerializeObject(questions);
 
-			string serverAnswer = await client.CreateTest(testTitle, Encoding.UTF8.GetBytes(json));
+			string serverAnswer = client.CreateTest(testTitle, json);
 
 			Assert.That(
 				serverAnswer,
-				Is.EqualTo("")
+				Is.EqualTo("OK")
 				);
 
 			string newTestTitle = testTitle + "NEW";
@@ -144,11 +144,11 @@ namespace ClientLibrary.Tests
 
 			string newJson = JsonConvert.SerializeObject(test);
 
-			serverAnswer = await client.UpdateTest(testTitle, Encoding.UTF8.GetBytes(newJson));
+			serverAnswer = client.UpdateTest(testTitle, newJson);
 
 			Assert.That(
 				serverAnswer,
-				Is.EqualTo(""));
-		}*/
+				Is.EqualTo("OK"));
+		}
 	}
 }
