@@ -4,10 +4,10 @@
              x:Class="DesktopApplication.MainPage">
     <ScrollView>
         <StackLayout>
-            <Button Margin="10" HeightRequest="60" WidthRequest="250" Text="Create Test" VerticalOptions="Start" HorizontalOptions="Start"></Button>
-            <Border x:Name="borderForTests" Stroke="BlueViolet" HorizontalOptions="Start" WidthRequest="985" HeightRequest="585">
+            <Button Clicked="CreateTestNavigate" Margin="10" HeightRequest="60" WidthRequest="250" Text="Create Test" VerticalOptions="Start" HorizontalOptions="Start"></Button>
+            <Border x:Name="borderForTests" Stroke="BlueViolet" HorizontalOptions="Center" WidthRequest="970" HeightRequest="580">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="20"></RoundRectangle>
+                    <RoundRectangle CornerRadius="12"></RoundRectangle>
                 </Border.StrokeShape>
                 <VerticalStackLayout x:Name="stackForTests">
                     

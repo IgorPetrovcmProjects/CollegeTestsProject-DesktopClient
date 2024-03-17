@@ -6,7 +6,9 @@
 		{
 			InitializeComponent();
 
-			MainPage = new MainPage();
+			Routing.RegisterRoute("CreateTestPage", typeof(CreateTestPage));
+
+			MainPage = new CreateTestPage();
 		}
 
 		protected override Window CreateWindow(IActivationState? activationState)
