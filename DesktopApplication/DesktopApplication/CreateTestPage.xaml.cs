@@ -25,6 +25,14 @@ public partial class CreateTestPage : ContentPage
 
 		ScrollView scrollInBorder = new ScrollView();
 
+		Button btnDeleteQuestion = new Button()
+		{
+			BackgroundColor = Colors.Red,
+			Text = "Delete",
+			HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false)
+		};
+		btnDeleteQuestion.Clicked += BtnDeleteQuestion_Click;
+
 		Entry inputQuestionName = new Entry()
 		{
 			Text = "Question Name",
@@ -54,6 +62,7 @@ public partial class CreateTestPage : ContentPage
 
 		VerticalStackLayout verticalStack = new VerticalStackLayout();
 
+		verticalStack.Add(btnDeleteQuestion);
 		verticalStack.Add(nameQuestion);
 		verticalStack.Add(inputQuestionName);
 		verticalStack.Add(stackForAnswers);
@@ -68,6 +77,32 @@ public partial class CreateTestPage : ContentPage
 	public async void BtnBack_Click(object? sender, EventArgs e)
 	{
 		await Navigation.PushAsync(new MainPage());
+	}
+
+	public void BtnDeleteQuestion_Click(object? sender, EventArgs e)
+	{
+		Button btn = (Button)sender;
+
+		Element stack = btn.Parent;
+
+		Element scroll = stack.Parent;
+
+		Element border = scroll.Parent;
+
+		VerticalStackLayout mainStack = (VerticalStackLayout)border.Parent;
+
+		mainStack.Remove((Border)border);
+	}
+
+	public void BtnDeleteAnswer_Click(object? sender, EventArgs e)
+	{
+		Button btn = (Button)sender;
+
+		Element stack = btn.Parent;
+
+		VerticalStackLayout verticalStack = (VerticalStackLayout)stack.Parent;
+
+		verticalStack.Remove((HorizontalStackLayout)stack);
 	}
 
 	public void BtnAddAnswer_Click(object? sender, EventArgs e)
@@ -87,8 +122,17 @@ public partial class CreateTestPage : ContentPage
 			{
 			};
 
+			Button btnDeleteAnswer = new Button()
+			{
+				BackgroundColor = Colors.Red,
+				Text = "Delete",
+				FontSize = 9
+			};
+			btnDeleteAnswer.Clicked += BtnDeleteAnswer_Click;
+
 			horizontalStack.Add(answer);
 			horizontalStack.Add(inputAnswerText);
+			horizontalStack.Add(btnDeleteAnswer);
 
 			stack.Add(horizontalStack);
 		}
