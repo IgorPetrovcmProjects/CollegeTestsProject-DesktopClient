@@ -3,6 +3,7 @@ namespace DesktopApplication;
 using DesktopEngine_ClientLibrary;
 using DesktopEngine.Model;
 using Microsoft.Maui.Controls.Shapes;
+using System.Security.Cryptography.X509Certificates;
 
 public partial class RunTestPage : ContentPage
 {
@@ -53,22 +54,30 @@ public partial class RunTestPage : ContentPage
 					new ColumnDefinition(),
 					new ColumnDefinition()
 				},
-				RowDefinitions =
-				{
-					new RowDefinition()
-				},
-
 				Margin = new Thickness(15, 15, 15, 15)
 			};
 
-			int columnCount = 0;
+			int column = 0;
+			int row = 0;
+
+			int rowsCount;
+
+			if ((rowsCount = question.answerOptions.Count) % 2 > 0)
+			{
+				rowsCount++;
+			}
+
+			for (int i = 0; i < rowsCount; i++)
+			{
+				gridWithAnswers.RowDefinitions.Add(new RowDefinition());
+			}
+
 			for (int i = 0; i < question.answerOptions.Count; i++)
 			{
-				int column = 0;
-
-				if (columnCount == 2)
+				if (column == 2)
 				{
-					columnCount = 1;
+					column = 0;
+					row++;
 				}
 
 				gridWithAnswers.RowDefinitions.Add(new RowDefinition());
@@ -77,20 +86,21 @@ public partial class RunTestPage : ContentPage
 
 				CheckBox checkBox = new CheckBox()
 				{ 
-					
+					Color = Colors.Red
 				};
 				Label labelWithOption = new Label()
 				{
 					Text = question.answerOptions[i],
-					FontSize = 18
+					FontSize = 22,
+					VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false)
 				};
 
 				horizontal.Add(checkBox);
 				horizontal.Add(labelWithOption);
 
-				gridWithAnswers.Add(horizontal, column, i);
+				gridWithAnswers.Add(horizontal, column, row);
 
-				columnCount++;
+				column++;
 			}
 
 			verticalStack.Add(questionNameLabel);
@@ -102,5 +112,11 @@ public partial class RunTestPage : ContentPage
 
 			mainStack.Add(scrollWithBorders);
 		}
+
+	}
+
+	public async void BtnBack_Click(object? sender, EventArgs e)
+	{
+		await Navigation.PushAsync(new MainPage());
 	}
 }
