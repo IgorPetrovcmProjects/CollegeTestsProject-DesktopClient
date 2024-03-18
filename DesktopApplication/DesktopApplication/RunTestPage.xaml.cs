@@ -3,7 +3,6 @@ namespace DesktopApplication;
 using DesktopEngine_ClientLibrary;
 using DesktopEngine.Model;
 using Microsoft.Maui.Controls.Shapes;
-using System.Security.Cryptography.X509Certificates;
 
 public partial class RunTestPage : ContentPage
 {
@@ -86,7 +85,7 @@ public partial class RunTestPage : ContentPage
 
 				CheckBox checkBox = new CheckBox()
 				{ 
-					Color = Colors.Red
+					Color = Color.FromArgb("#E83737")
 				};
 				Label labelWithOption = new Label()
 				{
@@ -113,10 +112,87 @@ public partial class RunTestPage : ContentPage
 			mainStack.Add(scrollWithBorders);
 		}
 
+		Button btnCheckingResult = new Button()
+		{
+			BackgroundColor = Color.FromArgb("#E83737"),
+			Text = "Checking Result",
+			Margin = new Thickness(0,20,15,20),
+			HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false)
+		};
+		btnCheckingResult.Clicked += BtnCheckingResult_Click;
+
+		mainStack.Add(btnCheckingResult);
 	}
 
 	public async void BtnBack_Click(object? sender, EventArgs e)
 	{
 		await Navigation.PushAsync(new MainPage());
+	}
+
+	public async void BtnCheckingResult_Click(object? sender, EventArgs e)
+	{
+		Dictionary<string, int> results = new Dictionary<string, int>();
+
+		foreach (IView mainStackViews in mainStack)
+		{
+			if (mainStackViews is ScrollView scrollInMainstack)
+			{
+				Border borderWithQuestionStack = (Border)scrollInMainstack.Content;
+
+				VerticalStackLayout stackWithAnswers = (VerticalStackLayout)borderWithQuestionStack.Content;
+
+				string titleQuestion = "";
+
+				foreach (IView answersViews in stackWithAnswers)
+				{
+					if (answersViews is Label titleQuestionLable)
+					{
+						titleQuestion = titleQuestionLable.Text;
+					}
+
+					if (answersViews is Grid gridWithAnswers)
+					{
+						List<int> userAnswers = new List<int>();
+
+						int difference = 0;
+
+						int countAnswers = 1;
+
+						foreach (IView horizontalStackWithAnswers in gridWithAnswers)
+						{
+							HorizontalStackLayout horizontalWithAnswer = (HorizontalStackLayout)horizontalStackWithAnswers;
+
+
+							foreach (IView view in horizontalWithAnswer)
+							{
+								if (view is CheckBox userAnswer)
+								{
+									if (userAnswer.IsChecked == true)
+									{
+										userAnswers.Add(countAnswers);
+									}
+
+									countAnswers++;
+								}
+							}
+						}
+
+						Question question = questions.FirstOrDefault(x => x.question == titleQuestion);
+
+						foreach (int trueAnswer in question.answers)
+						{
+							if (!userAnswers.Any(x => x == trueAnswer))
+							{
+								difference++;
+							}
+						}
+
+						double fractional = (double)(question.answers.Count - difference) / question.answers.Count;
+
+						results.Add(titleQuestion, (int)(fractional * 100));
+					}
+				}
+			}
+		}
 	}
 }
