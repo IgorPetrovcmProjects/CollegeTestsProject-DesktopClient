@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DesktopApplication.ResultUserPage">
+    <ScrollView>
+        <VerticalStackLayout x:Name="mainStack">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="1" Grid.ColumnSpan="2" HorizontalOptions="Center" x:Name="titleTestLabel" Text="Test Title" FontSize="34" Margin="15,10,0,0"></Label>
+                <Button Grid.Column="3" Clicked="BtnBack_Click" Text="Back" TextColor="Black" BackgroundColor="#E2E1E1" HorizontalOptions="End" Margin="0,10,20,0" WidthRequest="70"></Button>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

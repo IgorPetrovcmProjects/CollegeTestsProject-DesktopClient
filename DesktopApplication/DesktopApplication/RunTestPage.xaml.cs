@@ -194,5 +194,7 @@ public partial class RunTestPage : ContentPage
 				}
 			}
 		}
+
+		await Navigation.PushAsync(new ResultUserPage(testTitle, results));
 	}
 }

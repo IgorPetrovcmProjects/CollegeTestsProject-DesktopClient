@@ -87,6 +87,9 @@
 	  <MauiXaml Update="CreateTestPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ResultUserPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="RunTestPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
