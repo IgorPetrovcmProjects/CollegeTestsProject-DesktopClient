@@ -89,6 +89,7 @@
 				Margin = new Thickness(130, 0, 0, 10),
 				WidthRequest = 200
 			};
+			btnStart.Clicked += BtnStart_Click;
 
 			Button btnDelete = new Button()
 			{
@@ -115,6 +116,27 @@
 		public async void CreateTestNavigate(object? sender, EventArgs e)
 		{
 			await Shell.Current.GoToAsync("CreateTestPage");
+		}
+
+		public async void BtnStart_Click(object? sender, EventArgs e)
+		{
+			string titleTest = "";
+
+			Button btn = (Button)sender;
+
+			Element horizontal = btn.Parent;
+
+			Element stack = horizontal.Parent;
+
+			foreach (Element element in (StackLayout)stack)
+			{
+				if (element is Label titleLable)
+				{
+					titleTest = titleLable.Text;
+				}
+			}
+
+			await Navigation.PushAsync(new RunTestPage(titleTest));
 		}
 
 		public async void BtnUpdateTest_Click(object? sender, EventArgs e)
