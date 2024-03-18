@@ -24,9 +24,9 @@
 			{
 				titles = client.GetTitles();
 
-				if (titles.Count == 0)
+				if (titles?.Count == 0)
 				{
-					stackForTests.Add(new Label { Text = "There are no tests", HorizontalOptions = new LayoutOptions(LayoutAlignment.Center,false), Margin = new Thickness(30), FontSize = 22});
+					stackForTests.Add(new Label { Text = "There are no tests", HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false), Margin = new Thickness(30), FontSize = 22 });
 					return;
 				}
 
@@ -46,10 +46,10 @@
 			Border border = new Border()
 			{
 				HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false),
-				Margin = new Thickness(10,20,0,0),
+				Margin = new Thickness(10, 20, 0, 0),
 				Stroke = Colors.Black,
 				BackgroundColor = Color.FromArgb("c7c7c7"),
-				StrokeShape = new RoundRectangle() { CornerRadius = 12},
+				StrokeShape = new RoundRectangle() { CornerRadius = 12 },
 				WidthRequest = 900,
 				HeightRequest = 150,
 			};
@@ -80,12 +80,13 @@
 				VerticalOptions = new LayoutOptions(LayoutAlignment.End, false),
 				WidthRequest = 200
 			};
+			btnUpdate.Clicked += BtnUpdateTest_Click;
 
 			Button btnStart = new Button()
-			{ 
+			{
 				Text = "Start",
 				FontSize = 14,
-				Margin = new Thickness(130,0,0,10),
+				Margin = new Thickness(130, 0, 0, 10),
 				WidthRequest = 200
 			};
 
@@ -93,9 +94,12 @@
 			{
 				Text = "Delete",
 				FontSize = 14,
+				BackgroundColor = Colors.Red,
 				Margin = new Thickness(130, 0, 0, 10),
 				WidthRequest = 200
 			};
+			btnDelete.Clicked += BtnDeleteTest_Click;
+
 
 			horizontalStack.Add(btnUpdate);
 			horizontalStack.Add(btnStart);
@@ -112,6 +116,62 @@
 		{
 			await Shell.Current.GoToAsync("CreateTestPage");
 		}
-	}
 
+		public async void BtnUpdateTest_Click(object? sender, EventArgs e)
+		{
+			string titleTest = "";
+
+			Button btn = (Button)sender;
+
+			Element horizontal = btn.Parent;
+
+			Element stack = horizontal.Parent;
+
+			foreach (Element element in (StackLayout)stack)
+			{
+				if (element is Label titleLable)
+				{
+					titleTest = titleLable.Text;
+				}
+			}
+
+			await Navigation.PushAsync(new UpdateTestPage(titleTest));
+		}
+
+		public async void BtnDeleteTest_Click(object? sender, EventArgs e)
+		{
+			bool displayResult = await DisplayAlert("Are you sure?", "", accept: "Remove", cancel: "Cancel");
+
+			if (displayResult)
+			{
+				Button btn = (Button)sender;
+
+				Element horizontal = btn.Parent;
+
+				Element stack = horizontal.Parent;
+
+				foreach (Element element in (StackLayout)stack)
+				{
+					if (element is Label titleLable)
+					{
+						client = new DesktopClient();
+
+						try
+						{
+							client.DeleteTest(titleLable.Text);
+						}
+						catch
+						{
+							await DisplayAlert("Are Removed", "Something went wrong", "So sad..");
+							return;
+						}
+					}
+				}
+
+				Element border = stack.Parent;
+
+				stackForTests.Remove((Border)border);
+			}
+		}
+	}
 }

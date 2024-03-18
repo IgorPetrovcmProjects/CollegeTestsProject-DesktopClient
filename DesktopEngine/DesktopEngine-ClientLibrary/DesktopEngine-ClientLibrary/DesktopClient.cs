@@ -111,11 +111,11 @@
 			}
 		}
 
-		public string UpdateTest(string name, List<Question> newQuestions)
+		public string UpdateTest(string name, Test newTest)
 		{
 			Client client = new Client();
 
-			string jsonWithNewTest = JsonConvert.SerializeObject(newQuestions);
+			string jsonWithNewTest = JsonConvert.SerializeObject(newTest);
 
 			HttpResponseMessage response = client.SendPutRequest(MainUrl + "/updatetest/?name=" + name, jsonWithNewTest);
 

@@ -52,7 +52,7 @@ namespace ClientLibrary.Tests
 			client.AssignSourcePath(sourcePath);
 		}
 
-		[Test, Order(1)]
+		/*[Test, Order(1)]
 		public void CreateTest_CreateSingleTest_TestCreated()
 		{
 			DesktopClient client = new DesktopClient();
@@ -72,7 +72,7 @@ namespace ClientLibrary.Tests
 				serverAnswer,
 				Is.EqualTo("OK")
 				);
-		}
+		}*/
 
 		[Test, Order(2)]
 		public async Task GetTest_GetExistsTest_GetTest()
@@ -129,9 +129,7 @@ namespace ClientLibrary.Tests
 				new Question { question = "Как месяц "}
 			};
 
-			string json = JsonConvert.SerializeObject(questions);
-
-			string serverAnswer = client.CreateTest(testTitle, json);
+			string serverAnswer = client.CreateTest(testTitle, questions);
 
 			Assert.That(
 				serverAnswer,
@@ -140,11 +138,11 @@ namespace ClientLibrary.Tests
 
 			string newTestTitle = testTitle + "NEW";
 
-			Test test = new Test(newTestTitle, new List<Question>());
+			List<Question> newQuestion = new List<Question>();
 
-			string newJson = JsonConvert.SerializeObject(test);
+			Test newTest = new Test(newTestTitle, questions);
 
-			serverAnswer = client.UpdateTest(testTitle, newJson);
+			serverAnswer = client.UpdateTest(testTitle, newTest);
 
 			Assert.That(
 				serverAnswer,

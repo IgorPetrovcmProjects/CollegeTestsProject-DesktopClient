@@ -78,10 +78,16 @@
 	  <Compile Update="CreateTestPage.xaml.cs">
 	    <DependentUpon>CreateTestPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="UpdateTestPAge.xaml.cs">
+	    <DependentUpon>UpdateTestPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Update="CreateTestPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="UpdateTestPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

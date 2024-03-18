@@ -39,25 +39,16 @@ public class UpdateTestRouteHandler : RouteHandler
 
 		reader.Dispose();
 
-		Test test = JsonConvert.DeserializeObject<Test>(sentJson);
+		Test sentTest = JsonConvert.DeserializeObject<Test>(sentJson);
 
 		FileInfo fileWithTest = new FileInfo(pathToTest);
 
-		string pathToUpdateTest = fileWithTest.Directory.FullName + "\\" + test.title + ".json";
+		string pathToUpdateTest = fileWithTest.Directory.FullName + "\\" + sentTest.title + ".json";
 		fileWithTest.MoveTo(pathToUpdateTest);
 
-		using FileStream fs = new FileStream(pathToUpdateTest, FileMode.Open, FileAccess.ReadWrite);
+		using FileStream fs = new FileStream(pathToUpdateTest, FileMode.Open, FileAccess.Write);
 
-		byte[] currentJsonInBytes = new byte[fs.Length];
-		fs.Read(currentJsonInBytes, 0, currentJsonInBytes.Length);
-
-		string currentJson = Encoding.UTF8.GetString(currentJsonInBytes);
-
-		List<Question> currentQuestions = JsonConvert.DeserializeObject<List<Question>>(currentJson);
-
-		currentQuestions = test.questions;
-
-		string newJson = JsonConvert.SerializeObject(currentQuestions);
+		string newJson = JsonConvert.SerializeObject(sentTest.questions);
 
 		byte[] newJsonInBytes = Encoding.UTF8.GetBytes(newJson);
 
